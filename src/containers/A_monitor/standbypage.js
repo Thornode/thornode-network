@@ -30,6 +30,7 @@ import bitcoincash from '@iso/assets/images/bitcoincash.png';
 import dogecoin from '@iso/assets/images/dogecoin.png';
 import gaia from '@iso/assets/images/atom.png';
 import thornode from '@iso/assets/images/thornode.svg';
+import avax from '@iso/assets/images/avax.png';
 import blockIcon from '@iso/assets/images/overview/block_icon.svg';
 import highTradingIcon from '@iso/assets/images/overview/24high_trading.svg';
 import lowTradingIcon from '@iso/assets/images/overview/24low_trading.svg';
@@ -429,6 +430,7 @@ const NodeTable = ({nodeData, clickSortHeader, sortColour, maxChainHeights, chai
                   <th className="tableHeader" style={{...headerStyle, ...iconStyle}}><img alt="#" src={bitcoincash} style={{width: 25, height: 25, display: 'block', margin: 'auto'}}/></th>
                   <th className="tableHeader" style={{...headerStyle, ...iconStyle}}><img alt="#" src={dogecoin} style={{width: 25, height: 25, display: 'block', margin: 'auto'}}/></th>
                   <th className="tableHeader" style={{...headerStyle, ...iconStyle}}><img alt="#" src={gaia} style={{width: 25, height: 25, display: 'block', margin: 'auto'}}/></th>
+                  <th className="tableHeader" style={{...headerStyle, ...iconStyle}}><img alt="#" src={avax} style={{width: 25, height: 25, display: 'block', margin: 'auto'}}/></th>
                 </>
               }
             </tr>
@@ -489,6 +491,7 @@ const NodeTable = ({nodeData, clickSortHeader, sortColour, maxChainHeights, chai
                   <ChainTD chain={'BCH'} obchains={item.obchains} maxChainHeights={maxChainHeights} />
                   <ChainTD chain={'DOGE'} obchains={item.obchains} maxChainHeights={maxChainHeights} />
                   <ChainTD chain={'GAIA'} obchains={item.obchains} maxChainHeights={maxChainHeights} />
+                  <ChainTD chain={'AVAX'} obchains={item.obchains} maxChainHeights={maxChainHeights} />
                 </>
               }
           </tr>
