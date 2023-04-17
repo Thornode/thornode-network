@@ -4,7 +4,7 @@
 }
 .ant-layout {
   min-height: 100%;
-  min-width: 1680px;
+  min-width: 1920px;
 }
 body {
   font-family: monospace!important;
@@ -41,8 +41,24 @@ td {
   color: #1C39BB
 }
 
+.tableHeader span{
+  position: relative;
+}
+
 .tableHeader:hover {
   color: #004d59
+}
+
+.tableHeader span .sort-icon{
+  position: absolute;
+  top: 50%;
+  right: -5px;
+}
+.tableHeader span .sort-icon.desc{
+  transform: translate(100%, -50%) rotate(0deg);
+}
+.tableHeader span .sort-icon.asc{
+  transform: translate(100%, -50%) rotate(180deg);
 }
 
 .overview-list-wrapper {
