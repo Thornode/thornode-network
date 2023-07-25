@@ -64,6 +64,7 @@ def gradDataAndSaveToDB():
     """
     gradDataAndSaveToDB used to update thornode_monitor_global database
     """
+    # Grab nodes
     response_API = requests.get('https://thornode.ninerealms.com/thorchain/nodes')
     data = json.loads(response_API.text)
     # sanitise data remove any empty elements
@@ -76,9 +77,30 @@ def gradDataAndSaveToDB():
     commitQuery(query)
 
     # check if we are in a churn
-
+    
     dataForExistingNodes, dataForNewNodes = splitNodes(nodes)
     for node in dataForExistingNodes:
+        bond_providersString = ""
+        for provider in node['bond_providers']['providers']:
+            bond_providersString = bond_providersString + provider["bond_address"] + ","
+
+        if node['observe_chains'] is not None:
+            for item in node['observe_chains']:
+                if item['chain'] == "BTC":
+                    if item['height'] > 10000000:
+                        item['height'] = 0
+                        break
+
+        if 'observe_chains' in node and node['observe_chains'] is not None and 'BTC' in node['observe_chains'] and \
+                node['observe_chains']['BTC'] > 10000000:
+            node['observe_chains']['BTC'] = 0
+
+        if node['node_address'] == "thor1ytvzjwmf9pwuq95mdya4y9gale3864jz2ryu3r" or node['node_address'] == "thor1gqtwzazgdncthm2cuu947d0mvk3w5fkahm40qp":
+            for key in node['observe_chains']:
+                if key['chain'] == "BTC":
+                    if key['height'] > 796920:
+                        key['height'] = 0
+
         query = "UPDATE noderunner.thornode_monitor SET " \
                 "active_block_height = '{active_block_height}'," \
                 "bond_providers = '{bond_providers}'," \
@@ -93,6 +115,7 @@ def gradDataAndSaveToDB():
                 "preflight_status = '{preflight_status}'," \
                 "status = '{status}'," \
                 "status_since = '{status_since}'," \
+                "bondProvidersString = '{bp_string}'," \
                 "version = '{version}' WHERE (node_address = '{node_address}');".format(
             active_block_height=node['active_block_height'],
             bond_providers=json.dumps(node['bond_providers']),
@@ -105,7 +128,8 @@ def gradDataAndSaveToDB():
             observe_chains=json.dumps(node['observe_chains']),
             preflight_status=json.dumps(node['preflight_status']),
             status=node['status'],
-            status_since=node['status_since'], version=node['version'], node_address=node['node_address'])
+            status_since=node['status_since'], bp_string=bond_providersString, version=node['version'],
+            node_address=node['node_address'])
         commitQuery(query)
 
     # Loop over new nodes and grab IP addr
