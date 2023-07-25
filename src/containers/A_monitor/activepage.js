@@ -130,11 +130,11 @@ function popUpModal(msg, ip) {
   });
 }
 
-const SortIcon = ({ sortBy, column, sortDirection }) => {
-  if (sortBy == column) {
+const SortIcon = ({ column, sortBy, sortDirection }) => {
+  if (sortBy === column) {
     return (
       <img
-        className={`sort-icon ${sortDirection}`}
+        className={`sort-icon ${sortDirection === "desc" ? "down" : "up"}`}
         src={arrowDownIcon}
         width={12}
       />
@@ -640,17 +640,23 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("node_address"),
                     textAlign: "center",
-                    minWidth: 100,
                   }}
+                  onClick={() => clickSortHeader("node_address")}
                 >
-                  <span onClick={() => clickSortHeader("node_address")}>
-                    Validator Nodes
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Validator Nodes</span>
                     <SortIcon
                       column={"node_address"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("age")}
@@ -658,17 +664,23 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("age"),
                     textAlign: "center",
-                    minWidth: 90,
                   }}
+                  onClick={() => clickSortHeader("age")}
                 >
-                  <span onClick={() => clickSortHeader("age")}>
-                    Age
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Age</span>
                     <SortIcon
                       column={"age"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("action")}
@@ -676,17 +688,23 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("action"),
                     textAlign: "center",
-                    minWidth: 100,
                   }}
+                  onClick={() => clickSortHeader("action")}
                 >
-                  <span onClick={() => clickSortHeader("action")}>
-                    Action
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Action</span>
                     <SortIcon
                       column={"action"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("isp")}
@@ -694,52 +712,71 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("isp"),
                     textAlign: "center",
-                    minWidth: 50,
                   }}
+                  onClick={() => clickSortHeader("isp")}
                 >
-                  <span onClick={() => clickSortHeader("isp")}>
-                    ISP
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>ISP</span>
                     <SortIcon
                       column={"isp"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
-                  className="tableHeader"
+                  className={getHeaderClassName("location")}
                   style={{
                     ...headerStyle,
                     color: sortColour("location"),
                     textAlign: "center",
-                    minWidth: 100,
                   }}
+                  onClick={() => clickSortHeader("location")}
                 >
-                  <span onClick={() => clickSortHeader("location")}>
-                    Location
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Location</span>
                     <SortIcon
                       column={"location"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("bond")}
                   style={{
                     ...headerStyle,
                     color: sortColour("bond"),
-                    minWidth: 75,
+                    textAlign: "center",
                   }}
+                  onClick={() => clickSortHeader("bond")}
                 >
-                  <span onClick={() => clickSortHeader("bond")}>
-                    Bond
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Bond</span>
                     <SortIcon
                       column={"bond"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("providers")}
@@ -748,15 +785,22 @@ const NodeTable = ({
                     color: sortColour("bond_providers"),
                     textAlign: "center",
                   }}
+                  onClick={() => clickSortHeader("bond_providers")}
                 >
-                  <span onClick={() => clickSortHeader("bond_providers")}>
-                    Providers
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Providers</span>
                     <SortIcon
                       column={"bond_providers"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("rewards")}
@@ -765,28 +809,46 @@ const NodeTable = ({
                     color: sortColour("current_award"),
                     textAlign: "center",
                   }}
+                  onClick={() => clickSortHeader("current_award")}
                 >
-                  <span onClick={() => clickSortHeader("current_award")}>
-                    Rewards
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Rewards</span>
                     <SortIcon
                       column={"current_award"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("apy")}
-                  style={{ ...headerStyle, color: sortColour("apy") }}
+                  style={{
+                    ...headerStyle,
+                    color: sortColour("apy"),
+                    textAlign: "center",
+                  }}
+                  onClick={() => clickSortHeader("apy")}
                 >
-                  <span onClick={() => clickSortHeader("apy")}>
-                    APY
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>APY</span>
                     <SortIcon
                       column={"apy"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("slashes")}
@@ -795,58 +857,94 @@ const NodeTable = ({
                     color: sortColour("slash_points"),
                     textAlign: "center",
                   }}
+                  onClick={() => clickSortHeader("slash_points")}
                 >
-                  <span onClick={() => clickSortHeader("slash_points")}>
-                    Slashes
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Slashes</span>
                     <SortIcon
                       column={"slash_points"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("score")}
-                  style={{ ...headerStyle, color: sortColour("score") }}
+                  style={{
+                    ...headerStyle,
+                    color: sortColour("score"),
+                    textAlign: "center",
+                  }}
+                  onClick={() => clickSortHeader("score")}
                 >
-                  <span onClick={() => clickSortHeader("score")}>
-                    Score
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Score</span>
                     <SortIcon
                       column={"score"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("version")}
-                  style={{ ...headerStyle, color: sortColour("version") }}
+                  style={{
+                    ...headerStyle,
+                    color: sortColour("version"),
+                    textAlign: "center",
+                  }}
+                  onClick={() => clickSortHeader("version")}
                 >
-                  <span onClick={() => clickSortHeader("version")}>
-                    Version
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Version</span>
                     <SortIcon
                       column={"version"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
-                  className="tableHeader"
+                  className={getHeaderClassName("leave")}
                   style={{
                     ...headerStyle,
                     color: sortColour("leave"),
                     textAlign: "center",
                   }}
+                  onClick={() => clickSortHeader("leave")}
                 >
-                  <span onClick={() => clickSortHeader("leave")}>
-                    {leaveIcon}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>{leaveIcon}</span>
                     <SortIcon
                       column={"leave"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </span>
+                  </div>
                 </th>
                 <th
                   className={getHeaderClassName("rpc")}
@@ -864,132 +962,270 @@ const NodeTable = ({
                 {chains && (
                   <>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("BNB")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("BNB")}
                     >
-                      <img
-                        alt="#"
-                        src={binance}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={binance}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"BNB"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("BTC")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("BTC")}
                     >
-                      <img
-                        alt="#"
-                        src={bitcoin}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={bitcoin}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px", // Add some spacing between the icon and the arrow
+                          }}
+                        />
+                        <SortIcon
+                          column={"BTC"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
+
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("ETH")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("ETH")}
                     >
-                      <img
-                        alt="#"
-                        src={eth}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={eth}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"ETH"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("LTC")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("LTC")}
                     >
-                      <img
-                        alt="#"
-                        src={litecoin}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={litecoin}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"LTC"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("BCH")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("BCH")}
                     >
-                      <img
-                        alt="#"
-                        src={bitcoincash}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={bitcoincash}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"BCH"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("DOGE")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("DOGE")}
                     >
-                      <img
-                        alt="#"
-                        src={dogecoin}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={dogecoin}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"DOGE"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("GAIA")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("GAIA")}
                     >
-                      <img
-                        alt="#"
-                        src={gaia}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={gaia}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"GAIA"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
+
                     <th
-                      className="tableHeader"
-                      style={{ ...headerStyle, ...iconStyle }}
+                      className={getHeaderClassName("AVAX")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
                       onClick={() => clickSortHeader("AVAX")}
                     >
-                      <img
-                        alt="#"
-                        src={avax}
+                      <div
                         style={{
-                          width: 25,
-                          height: 25,
-                          display: "block",
-                          margin: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
+                      >
+                        <img
+                          alt="#"
+                          src={avax}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"AVAX"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
                     </th>
                   </>
                 )}
@@ -1249,6 +1485,8 @@ const defaulColumns = {
   isp: true,
   bond: true,
   providers: true,
+  location: true,
+  leave: true,
   rewards: true,
   apy: true,
   slashes: true,
@@ -1256,6 +1494,14 @@ const defaulColumns = {
   version: true,
   rpc: true,
   bfr: true,
+  BTC: true,
+  BNB: true,
+  ETH: true,
+  LTC: true,
+  BCH: true,
+  DOGE: true,
+  GAIA: true,
+  AVAX: true,
 };
 export default class extends Component {
   constructor(props) {
