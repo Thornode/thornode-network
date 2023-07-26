@@ -1,12 +1,13 @@
 import time
 
 from common import grabQuery
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
 from thormonitor_collect_data import gradDataAndSaveToDB
 from thormonitor_update_ips import updateIPs
 from thornode_collect_data_global import collectDataGlobal
 from thormonitor_collect_data_rpc_bifrost import biFrostGrabDataAndSaveToDB
+from thornode_historical_data import checkIfNewChurn
 
 from threading import Thread
 
@@ -32,6 +33,41 @@ def grabData():
 
     return {'data': currentDBData, 'globalData': globalData[0]}
 
+@app.route('/thor/api/grabBond=<node>', methods=['GET'])
+@cross_origin()
+def grabBond(node):
+    data = grabQuery("SELECT * FROM noderunner.thornode_monitor_historic where node_address='{field}' ORDER BY churnHeight ASC".format(
+        field=node))
+
+    interim = {}
+    for key in data:
+        interim[key['churnHeight']] = key['bond']
+
+    return jsonify(interim)
+
+@app.route('/thor/api/grabSlashes=<node>', methods=['GET'])
+@cross_origin()
+def grabSlashes(node):
+    data = grabQuery("SELECT * FROM noderunner.thornode_monitor_historic where node_address='{field}' ORDER BY churnHeight ASC".format(
+        field=node))
+
+    interim = {}
+    for key in data:
+        interim[key['churnHeight']] = key['slash_points']
+
+    return jsonify(interim)
+
+@app.route('/thor/api/grabRewards=<node>', methods=['GET'])
+@cross_origin()
+def grabRewards(node):
+    data = grabQuery("SELECT * FROM noderunner.thornode_monitor_historic where node_address='{field}' ORDER BY churnHeight ASC".format(
+        field=node))
+
+    interim = {}
+    for key in data:
+        interim[key['churnHeight']] = key['current_award']
+
+    return jsonify(interim)
 
 def main():
     """
@@ -46,6 +82,7 @@ def main():
             updateIPs()
             collectDataGlobal()
             biFrostGrabDataAndSaveToDB()
+            checkIfNewChurn()
         except Exception as e:
             print(e)
         time.sleep(60)

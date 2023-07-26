@@ -40,7 +40,11 @@ def updateIPs():
                     time.sleep(60)
                 elif response_code == 200:
                     ip_data = json.loads(response.text)
-                    query = "UPDATE noderunner.thornode_monitor SET ip_address = '{ip}', location = '{city}', " \
-                            "isp = '{isp}' WHERE node_address = '{node_address}' ".format(ip=mismatch[key],city=ip_data['city'],isp=ip_data['isp'],node_address=key)
+                    if(ip_data['status'] != "fail"):
+                        query = "UPDATE noderunner.thornode_monitor SET ip_address = '{ip}', location = '{city}', " \
+                                "isp = '{isp}' WHERE node_address = '{node_address}' ".format(ip=mismatch[key],city=ip_data['city'],isp=ip_data['isp'],node_address=key)
+                    else:
+                        query = "UPDATE noderunner.thornode_monitor SET ip_address = '{ip}', location = '{city}', " \
+                                "isp = '{isp}' WHERE node_address = '{node_address}' ".format(ip=mismatch[key],city="",isp="",node_address=key)
 
                     commitQuery(query)
