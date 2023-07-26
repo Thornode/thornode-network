@@ -1989,17 +1989,6 @@ We use string sort function if value is one of the arrays else do second sort nu
                 </div>
               </div>
 
-              <div className="overview-list-wrapper">
-                <div className="overview-list">
-                  <GlobalData
-                    state={this.state}
-                    globalData={this.state.globalData}
-                    animateBlockCount={this.state.animateBlockCount}
-                  />
-                  <CoinGeckoData globalData={this.state.globalData} />
-                </div>
-              </div>
-
               {showActive && (
                 <>
                   <div className="cta-wrapper">
