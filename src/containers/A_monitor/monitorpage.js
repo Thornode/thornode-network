@@ -1,7 +1,8 @@
 import React, { Component, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
-
+import { Line } from "react-chartjs-2";
+import CustomLineChart from "./CustomLineChart";
 //import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
 //import LayoutContent from '@iso/components/utility/layoutContent';
 import Modals from "@iso/components/Feedback/Modal";
@@ -547,11 +548,18 @@ const BondProviderPopOver = ({ data }) => {
 const NodeTable = ({
   nodeData,
   clickSortHeader,
+  handleClickBond,
+  handleClickRewards,
+  handleClickSlashes,
   sortColour,
   maxChainHeights,
   chains,
   addToFav,
   whichHeart,
+  chartDataConfig,
+  bondOptions,
+  rewardsOptions,
+  slashesOptions,
   visibleColumns = { ...defaulColumns },
   sortBy = "",
   sortDirection = "",
@@ -1331,11 +1339,31 @@ const NodeTable = ({
                   <td
                     className={getCellClassName("bond")}
                     style={{ tdStyle, textAlign: "center" }}
+                    onClick={() => handleClickBond(item.node_address)}
                   >
-                    ᚱ
-                    {parseInt(
-                      (item.bond / 100000000).toFixed()
-                    ).toLocaleString()}
+                    <Popover
+                      content={
+                        chartDataConfig?.datasets?.[0]?.data &&
+                        chartDataConfig.datasets[0].data.length > 0 ? (
+                          <CustomLineChart
+                            data={chartDataConfig}
+                            options={bondOptions}
+                          />
+                        ) : (
+                          <div>No data available</div>
+                        )
+                      }
+                      title={`Bond Value Over Time for ${item.node_address.slice(
+                        -4
+                      )}`}
+                      trigger="click"
+                      overlayClassName="my-custom-popover"
+                    >
+                      ᚱ
+                      {parseInt(
+                        (item.bond / 100000000).toFixed()
+                      ).toLocaleString()}
+                    </Popover>
                   </td>
                   <td
                     className={getCellClassName("providers")}
@@ -1359,12 +1387,33 @@ const NodeTable = ({
                   <td
                     className={getCellClassName("rewards")}
                     style={{ ...tdStyle, textAlign: "center" }}
+                    onClick={() => handleClickRewards(item.node_address)}
                   >
-                    ᚱ
-                    {parseInt(
-                      (item.current_award / 100000000).toFixed()
-                    ).toLocaleString()}
+                    <Popover
+                      content={
+                        chartDataConfig?.datasets?.[0]?.data &&
+                        chartDataConfig.datasets[0].data.length > 0 ? (
+                          <CustomLineChart
+                            data={chartDataConfig}
+                            options={rewardsOptions}
+                          />
+                        ) : (
+                          <div>No data available</div>
+                        )
+                      }
+                      title={`Rewards Over Time for ${item.node_address.slice(
+                        -4
+                      )}`}
+                      trigger="click"
+                      overlayClassName="my-custom-popover"
+                    >
+                      ᚱ
+                      {parseInt(
+                        (item.current_award / 100000000).toFixed()
+                      ).toLocaleString()}
+                    </Popover>
                   </td>
+
                   <td
                     className={getCellClassName("apy")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1374,9 +1423,30 @@ const NodeTable = ({
                   <td
                     className={getCellClassName("slashes")}
                     style={{ ...tdStyle, textAlign: "center" }}
+                    onClick={() => handleClickSlashes(item.node_address)}
                   >
-                    {parseInt(item.slash_points).toLocaleString()}
+                    <Popover
+                      content={
+                        chartDataConfig?.datasets?.[0]?.data &&
+                        chartDataConfig.datasets[0].data.length > 0 ? (
+                          <CustomLineChart
+                            data={chartDataConfig}
+                            options={slashesOptions}
+                          />
+                        ) : (
+                          <div>No data available</div>
+                        )
+                      }
+                      title={`Slashes Over Time for ${item.node_address.slice(
+                        -4
+                      )}`}
+                      trigger="click"
+                      overlayClassName="my-custom-popover"
+                    >
+                      {parseInt(item.slash_points).toLocaleString()}
+                    </Popover>
                   </td>
+
                   <td
                     className={getCellClassName("score")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1531,6 +1601,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chartData: [],
       data: [],
       globalData: [],
       sortBy: "bond",
@@ -1547,6 +1618,9 @@ export default class extends Component {
       sortByChain: null,
     };
     this.clickSortHeader = this.clickSortHeader.bind(this);
+    this.handleClickRewards = this.handleClickRewards.bind(this);
+    this.handleClickSlashes = this.handleClickSlashes.bind(this);
+    this.handleClickBond = this.handleClickBond.bind(this);
   }
 
   async componentWillMount() {
@@ -1888,6 +1962,63 @@ We use string sort function if value is one of the arrays else do second sort nu
     return this.state.myFavNodes.includes(address) ? heartFull : heartBlank;
   }
 
+  handleClickSlashes = async (node_address) => {
+    const url = `https://api.liquify.com/thor/api/grabSlashes=${node_address}`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const chartData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Number(y),
+        }));
+        this.setState({ chartData });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
+  handleClickRewards = async (node_address) => {
+    const url = `https://api.liquify.com/thor/api/grabRewards=${node_address}`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const chartData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Number(y),
+        }));
+        this.setState({ chartData });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
+  handleClickBond = async (node_address) => {
+    const url = `https://api.liquify.com/thor/api/grabBond=${node_address}`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const chartData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Math.round(Number(y) / 100000000),
+        }));
+        this.setState({ chartData });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
   searchBar() {
     return (
       <div className="search-input">
@@ -1929,6 +2060,121 @@ We use string sort function if value is one of the arrays else do second sort nu
       isEmpty(nodesFilter) || noNodesFilter || nodesFilter.standby;
     const showOthers =
       isEmpty(nodesFilter) || noNodesFilter || nodesFilter.orthers;
+
+    const chartDataConfig = this.state.chartData
+      ? {
+          datasets: [
+            {
+              label: "Value",
+              data: this.state.chartData,
+              fill: false,
+              backgroundColor: "rgb(28, 57, 182)",
+              borderColor: "rgba(28, 57, 187, 0.2)",
+            },
+          ],
+        }
+      : {};
+
+    const slashesOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Height",
+                },
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Slashes Value",
+                },
+              },
+            ],
+          },
+        }
+      : {};
+
+    const rewardsOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Height",
+                },
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Reward Value",
+                },
+              },
+            ],
+          },
+        }
+      : {};
+
+    const bondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Height",
+                },
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Bond Value",
+                },
+                ticks: {
+                  min: Math.min(...this.state.chartData.map((data) => data.y)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value.toString();
+                  },
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
     return (
       <Layout>
@@ -2048,11 +2294,18 @@ We use string sort function if value is one of the arrays else do second sort nu
                       addToFav={this.addToFav.bind(this)}
                       nodeData={activeNodes}
                       clickSortHeader={this.clickSortHeader.bind(this)}
+                      handleClickBond={this.handleClickBond}
+                      handleClickRewards={this.handleClickRewards}
+                      handleClickSlashes={this.handleClickSlashes}
                       sortColour={this.sortColour.bind(this)}
                       maxChainHeights={this.state.maxChainHeights}
                       chains={true}
                       sortBy={this.state.sortBy}
                       sortDirection={this.state.sortDirection}
+                      chartDataConfig={chartDataConfig}
+                      bondOptions={bondOptions}
+                      rewardsOptions={rewardsOptions}
+                      slashesOptions={slashesOptions}
                     />
                   )}
                   {activeNodes.length === 0 && (
@@ -2095,11 +2348,18 @@ We use string sort function if value is one of the arrays else do second sort nu
                       addToFav={this.addToFav.bind(this)}
                       nodeData={standByNodes}
                       clickSortHeader={this.clickSortHeader.bind(this)}
+                      handleClickBond={this.handleClickBond}
+                      handleClickRewards={this.handleClickRewards}
+                      handleClickSlashes={this.handleClickSlashes}
                       sortColour={this.sortColour.bind(this)}
                       maxChainHeights={this.state.maxChainHeights}
                       chains={false}
                       sortBy={this.state.sortBy}
                       sortDirection={this.state.sortDirection}
+                      chartDataConfig={chartDataConfig}
+                      bondOptions={bondOptions}
+                      rewardsOptions={rewardsOptions}
+                      slashesOptions={slashesOptions}
                     />
                   )}
                   {standByNodes.length === 0 && (
@@ -2141,11 +2401,18 @@ We use string sort function if value is one of the arrays else do second sort nu
                       addToFav={this.addToFav.bind(this)}
                       nodeData={whitelistedNodes}
                       clickSortHeader={this.clickSortHeader.bind(this)}
+                      handleClickBond={this.handleClickBond}
+                      handleClickRewards={this.handleClickRewards}
+                      handleClickSlashes={this.handleClickSlashes}
                       sortColour={this.sortColour.bind(this)}
                       maxChainHeights={this.state.maxChainHeights}
                       chains={false}
                       sortBy={this.state.sortBy}
                       sortDirection={this.state.sortDirection}
+                      chartDataConfig={chartDataConfig}
+                      bondOptions={bondOptions}
+                      rewardsOptions={rewardsOptions}
+                      slashesOptions={slashesOptions}
                     />
                   )}
                   {whitelistedNodes.length === 0 && (
