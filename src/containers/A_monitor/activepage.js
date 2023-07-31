@@ -1682,14 +1682,12 @@ export default class extends Component {
   }
 
   returnSearchedData(data) {
-    if (this.state.searchTerm === "") {
-      return data;
-    } else {
-      const filteredNodes = data.filter((item) =>
-        item.node_address.includes(this.state.searchTerm)
-      );
-      return filteredNodes;
-    }
+      if (this.state.searchTerm === '') {
+        return data
+      } else {
+        const filteredNodes = data.filter(item => {return (item.node_address.includes(this.state.searchTerm) || item.bondProvidersString.includes(this.state.searchTerm))})
+        return filteredNodes
+      }
   }
 
   setData() {
