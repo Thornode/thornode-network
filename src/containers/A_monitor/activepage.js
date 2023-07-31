@@ -1323,6 +1323,7 @@ const NodeTable = ({
                         chartDataConfig?.datasets?.[0]?.data &&
                         chartDataConfig.datasets[0].data.length > 0 ? (
                           <CustomLineChart
+                            key={JSON.stringify(chartDataConfig)}
                             data={chartDataConfig}
                             options={bondOptions}
                           />
@@ -1371,6 +1372,7 @@ const NodeTable = ({
                         chartDataConfig?.datasets?.[0]?.data &&
                         chartDataConfig.datasets[0].data.length > 0 ? (
                           <CustomLineChart
+                            key={JSON.stringify(chartDataConfig)}
                             data={chartDataConfig}
                             options={rewardsOptions}
                           />
@@ -1406,6 +1408,7 @@ const NodeTable = ({
                         chartDataConfig?.datasets?.[0]?.data &&
                         chartDataConfig.datasets[0].data.length > 0 ? (
                           <CustomLineChart
+                            key={JSON.stringify(chartDataConfig)}
                             data={chartDataConfig}
                             options={slashesOptions}
                           />
