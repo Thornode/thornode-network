@@ -573,3 +573,7 @@ tr:first-child {
 .sort-icon.up {
   transform: rotate(180deg);
 }
+
+.my-custom-popover .ant-popover-inner {
+  width: 1000px;
+}
