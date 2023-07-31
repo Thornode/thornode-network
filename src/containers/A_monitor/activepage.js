@@ -1,23 +1,16 @@
 import React, { Component, useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
-//import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
-//import LayoutContent from '@iso/components/utility/layoutContent';
 import Modals from "@iso/components/Feedback/Modal";
 import Popover from "@iso/components/uielements/popover";
 import { getData, setCookie, getCookie } from "CommonFunctions";
-//import { someFunc } from './monitor_functions'
-//import Spin from '@iso/ui/Antd/Spin/Spin';
-// import Input from '@iso/components/uielements/input';
 import { ModalContent } from "../Feedback/Modal/Modal.styles";
-import { Layout, Button, Input, Breadcrumb, Select } from "antd";
+import { Layout, Button, Input, Modal, Switch, Breadcrumb, Select } from "antd";
 import "./styles.css";
 import { Link } from "react-router-dom";
 import { PUBLIC_ROUTE } from "../../route.constants";
 import { SearchOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-//import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
 
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartFull from "@iso/assets/images/heart-full.png";
@@ -42,10 +35,10 @@ import bitcoin from "@iso/assets/images/bitcoin.png";
 import litecoin from "@iso/assets/images/litecoin.png";
 import bitcoincash from "@iso/assets/images/bitcoincash.png";
 import dogecoin from "@iso/assets/images/dogecoin.png";
-//import luna from '@iso/assets/images/luna.png';
 import gaia from "@iso/assets/images/atom.png";
-import thornode from "@iso/assets/images/thornode.svg";
 import avax from "@iso/assets/images/avax.png";
+
+import thornode from "@iso/assets/images/thornode.svg";
 
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
@@ -69,7 +62,6 @@ import activeIcon from "@iso/assets/images/overview/active_icon.svg";
 import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
 
 import VisibleColumn from "@iso/components/VisibleColumn/VisibleColumn";
-
 const leaveIcon = (
   <svg
     style={{ marginTop: 5 }}
@@ -87,7 +79,6 @@ const leaveIcon = (
     <path d="M20.586 20.586L24.172 17 10 17 10 15 24.172 15 20.586 11.414 22 10 28 16 22 22 20.586 20.586z"></path>
   </svg>
 );
-
 const { Header, Footer, Content } = Layout;
 
 const headerStyle = {
@@ -166,7 +157,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           rel="noopener noreferrer"
           style={{ marginLeft: 5 }}
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M29.25,6.76a6,6,0,0,0-8.5,0l1.42,1.42a4,4,0,1,1,5.67,5.67l-8,8a4,4,0,1,1-5.67-5.66l1.41-1.42-1.41-1.42-1.42,1.42a6,6,0,0,0,0,8.5A6,6,0,0,0,17,25a6,6,0,0,0,4.27-1.76l8-8A6,6,0,0,0,29.25,6.76Z"></path><path d="M4.19,24.82a4,4,0,0,1,0-5.67l8-8a4,4,0,0,1,5.67,0A3.94,3.94,0,0,1,19,14a4,4,0,0,1-1.17,2.85L15.71,19l1.42,1.42,2.12-2.12a6,6,0,0,0-8.51-8.51l-8,8a6,6,0,0,0,0,8.51A6,6,0,0,0,7,28a6.07,6.07,0,0,0,4.28-1.76L9.86,24.82A4,4,0,0,1,4.19,24.82Z"></path></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -194,7 +184,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </a>
       </Popover>
-
       <Popover content={"Thornode API"} trigger="hover">
         <a
           href={firstURL}
@@ -202,7 +191,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           rel="noopener noreferrer"
           style={{ marginLeft: 5 }}
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M26,22a3.86,3.86,0,0,0-2,.57l-3.09-3.1a6,6,0,0,0,0-6.94L24,9.43A3.86,3.86,0,0,0,26,10a4,4,0,1,0-4-4,3.86,3.86,0,0,0,.57,2l-3.1,3.09a6,6,0,0,0-6.94,0L9.43,8A3.86,3.86,0,0,0,10,6a4,4,0,1,0-4,4,3.86,3.86,0,0,0,2-.57l3.09,3.1a6,6,0,0,0,0,6.94L8,22.57A3.86,3.86,0,0,0,6,22a4,4,0,1,0,4,4,3.86,3.86,0,0,0-.57-2l3.1-3.09a6,6,0,0,0,6.94,0L22.57,24A3.86,3.86,0,0,0,22,26a4,4,0,1,0,4-4ZM26,4a2,2,0,1,1-2,2A2,2,0,0,1,26,4ZM4,6A2,2,0,1,1,6,8,2,2,0,0,1,4,6ZM6,28a2,2,0,1,1,2-2A2,2,0,0,1,6,28Zm10-8a4,4,0,1,1,4-4A4,4,0,0,1,16,20Zm10,8a2,2,0,1,1,2-2A2,2,0,0,1,26,28Z"></path></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -258,7 +246,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </a>
       </Popover>
-
       <Popover content={ip_address} title={"IP Address"} trigger="hover">
         <span
           style={{ cursor: "pointer", marginLeft: 5 }}
@@ -266,7 +253,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             copyToClipWithPopup("IP Copied to clipboard:", ip_address)
           }
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2a8 8 0 108 8A8.0092 8.0092 0 0016 2zm5.91 7H19.4724a15.2457 15.2457 0 00-.7917-4.36A6.0088 6.0088 0 0121.91 9zM16.022 15.999h-.0076c-.3813-.1206-1.3091-1.8213-1.479-4.999h2.9292C17.2952 14.1763 16.3711 15.877 16.022 15.999zM14.5354 9c.1694-3.1763 1.0935-4.877 1.4426-4.999h.0076c.3813.1206 1.3091 1.8213 1.479 4.999zM13.3193 4.64A15.2457 15.2457 0 0012.5276 9H10.09A6.0088 6.0088 0 0113.3193 4.64zM10.09 11h2.4373a15.2457 15.2457 0 00.7917 4.36A6.0088 6.0088 0 0110.09 11zm8.59 4.36A15.2457 15.2457 0 0019.4724 11H21.91A6.0088 6.0088 0 0118.6807 15.36zM28 30H4a2.0021 2.0021 0 01-2-2V22a2.0021 2.0021 0 012-2H28a2.0021 2.0021 0 012 2v6A2.0021 2.0021 0 0128 30zM4 22v6H28V22z"></path><circle cx="7" cy="25" r="1"></circle></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -280,7 +266,7 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             <path
               d="M10.2916 1.08301H5.95831C5.81465 1.08301 5.67688 1.14008 5.5753 1.24166C5.47371 1.34324 5.41665 1.48102 5.41665 1.62467C5.41665 1.76833 5.47371 1.90611 5.5753 2.00769C5.67688 2.10927 5.81465 2.16634 5.95831 2.16634H10.2916C10.4353 2.16634 10.5731 2.22341 10.6747 2.32499C10.7762 2.42657 10.8333 2.56435 10.8333 2.70801V6.49967H1.62498C1.48132 6.49967 1.34355 6.55674 1.24196 6.65833C1.14038 6.75991 1.08331 6.89768 1.08331 7.04134V8.12467C1.08331 8.55565 1.25452 8.96898 1.55926 9.27372C1.86401 9.57847 2.27734 9.74967 2.70831 9.74967H4.33331V10.833H2.70831C2.56465 10.833 2.42688 10.8901 2.3253 10.9917C2.22371 11.0932 2.16665 11.231 2.16665 11.3747C2.16665 11.5183 2.22371 11.6561 2.3253 11.7577C2.42688 11.8593 2.56465 11.9163 2.70831 11.9163H10.2916C10.4353 11.9163 10.5731 11.8593 10.6747 11.7577C10.7762 11.6561 10.8333 11.5183 10.8333 11.3747C10.8333 11.231 10.7762 11.0932 10.6747 10.9917C10.5731 10.8901 10.4353 10.833 10.2916 10.833H8.66665V9.74967H10.2916C10.7226 9.74967 11.1359 9.57847 11.4407 9.27372C11.7454 8.96898 11.9166 8.55565 11.9166 8.12467V2.70801C11.9166 2.27703 11.7454 1.86371 11.4407 1.55896C11.1359 1.25421 10.7226 1.08301 10.2916 1.08301ZM7.58331 10.833H5.41665V9.74967H7.58331V10.833ZM10.8333 8.12467C10.8333 8.26833 10.7762 8.40611 10.6747 8.50769C10.5731 8.60927 10.4353 8.66634 10.2916 8.66634H2.70831C2.56465 8.66634 2.42688 8.60927 2.3253 8.50769C2.22371 8.40611 2.16665 8.26833 2.16665 8.12467V7.58301H10.8333V8.12467Z"
               fill="currentColor"
-            />{" "}
+            />
             <path
               d="M3.9044 3.30042L2.78573 4.75234L1.66706 3.30042C1.36512 2.90853 1.36759 2.45798 1.57491 2.09161C1.78501 1.72031 2.21379 1.42871 2.78573 1.42871C3.35767 1.42871 3.78646 1.72031 3.99656 2.09161C4.20388 2.45798 4.20634 2.90853 3.9044 3.30042Z"
               stroke="currentColor"
@@ -293,7 +279,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </span>
       </Popover>
-
       <img
         alt="#"
         onClick={() => addToFav(address)}
@@ -473,7 +458,7 @@ const ReturnIspImage = ({ isp }) => {
     return <img alt="#" src={imageVULTR} style={style} />;
   }
 
-  if (isp === "Leaseweb UK Limited" || isp === "Leaseweb USA, Inc.") {
+  if (isp === "Leaseweb UK Limited") {
     return <img alt="#" src={imageLeaseweb} style={style} />;
   }
 
@@ -653,7 +638,7 @@ const NodeTable = ({
                   borderWidth: 1.1,
                   borderColor: "rgba(0,0,0,1)",
                   color: "black",
-                  textAlign: "center",
+                  textAlign: "right",
                   marginRight: 10,
                 }}
               >
@@ -970,7 +955,6 @@ const NodeTable = ({
                     />
                   </div>
                 </th>
-
                 <th
                   className={getHeaderClassName("rpc")}
                   style={{ ...headerStyle, textAlign: "center" }}
@@ -1019,7 +1003,6 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
-
                     <th
                       className={getHeaderClassName("BTC")}
                       style={{
@@ -1265,20 +1248,14 @@ const NodeTable = ({
                       backgroundColor: "rgba(24, 34, 51, 0.4)",
                       minWidth: 35,
                       width: 50,
-                      paddingLeft: 3,
-                      textAlign: "center",
+                      paddingLeft: 5,
                     }}
                   >
                     {index + 1}
                   </td>
                   <td
                     className={getCellClassName("nodes")}
-                    style={{
-                      ...tdStyle,
-                      textAlign: "center",
-                      minWidth: 195,
-                      maxWidth: 201,
-                    }}
+                    style={{ ...tdStyle, textAlign: "center", minWidth: 200 }}
                   >
                     <Popover
                       content={item.node_address}
@@ -1413,7 +1390,6 @@ const NodeTable = ({
                       ).toLocaleString()}
                     </Popover>
                   </td>
-
                   <td
                     className={getCellClassName("apy")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1446,7 +1422,6 @@ const NodeTable = ({
                       {parseInt(item.slash_points).toLocaleString()}
                     </Popover>
                   </td>
-
                   <td
                     className={getCellClassName("score")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1641,7 +1616,7 @@ export default class extends Component {
     }
 
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      // console.log('DEV ONLY: Refresh Data Results: ', data)
+      console.log("DEV ONLY: Refresh Data Results: ", data);
     }
 
     this.setState(
@@ -1901,19 +1876,25 @@ We use string sort function if value is one of the arrays else do second sort nu
           "node_address",
         ].includes(toSortBy)
       ) {
+        //This sort function for strings
         newData = data.sort((a, b) => a[toSortBy].localeCompare(b[toSortBy]));
       } else if (toSortBy === "bond_providers") {
+        //This is for bond provider sort as we need to go another layer deep in the object
         newData = data.sort(
           (a, b) => a[toSortBy].providers.length - b[toSortBy].providers.length
         );
       } else if (worst_perform === true) {
+        //This is for when we are sorting for action of worst performance as we want to exclude any with age under 3 days
         const ageCutOffDays = 3;
         const a = data.filter((item) => parseFloat(item.age) > ageCutOffDays);
         const b = data.filter((item) => parseFloat(item.age) <= ageCutOffDays);
         const aSorted = a.sort((a, b) => b[toSortBy] - a[toSortBy]);
+
         aSorted[aSorted.length - 1].action = "Worst Performing";
         newData = [...aSorted, ...b];
       } else {
+        //This sort function for numbers
+        //When sorting, if values are the same, sort by node_address
         newData = data.sort(function (a, b) {
           if (a[toSortBy] === b[toSortBy]) {
             return a["node_address"].localeCompare(b["node_address"]);
@@ -1922,7 +1903,7 @@ We use string sort function if value is one of the arrays else do second sort nu
         });
       }
     }
-
+    //If we pass it a direction, we set it here, if not we take it from the state
     const toDirection =
       direction === null ? this.state.sortDirection : direction;
     if (toDirection === "desc") {
@@ -1963,7 +1944,6 @@ We use string sort function if value is one of the arrays else do second sort nu
   whichHeart(address) {
     return this.state.myFavNodes.includes(address) ? heartFull : heartBlank;
   }
-
   handleClickSlashes = async (node_address) => {
     const url = `https://api.liquify.com/thor/api/grabSlashes=${node_address}`;
     try {
@@ -2200,22 +2180,13 @@ We use string sort function if value is one of the arrays else do second sort nu
             <span>Thornode Monitor</span>
           </div>
           <div className="header-right">
-            {/* <div className={`active-node ${nodesFilter.active ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('active')}><img src={activeIcon}/></div>
-          <div className={`active-node ${nodesFilter.standby ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('standby')}><img src={powerIcon}/></div>
-          <div className={`active-node ${nodesFilter.orthers ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('orthers')}><img src={threeDotsIcon}/></div> */}
             <div
               className={`active-node ${
                 nodesFilter.active ? "active-node--active" : null
               }`}
               onClick={() => this.onNodesFilter("active")}
             >
-              <Popover
-                content="Active nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={activeIcon} />
-              </Popover>
+              <img src={activeIcon} />
             </div>
             <div
               className={`active-node ${
@@ -2223,13 +2194,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               }`}
               onClick={() => this.onNodesFilter("standby")}
             >
-              <Popover
-                content="Standby nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={powerIcon} />
-              </Popover>
+              <img src={powerIcon} />
             </div>
             <div
               className={`active-node ${
@@ -2237,13 +2202,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               }`}
               onClick={() => this.onNodesFilter("orthers")}
             >
-              <Popover
-                content="Orther nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={threeDotsIcon} />
-              </Popover>
+              <img src={threeDotsIcon} />
             </div>
           </div>
         </Header>
@@ -2256,8 +2215,11 @@ We use string sort function if value is one of the arrays else do second sort nu
 
           {!loading && (
             <div className="layout-content-wrapper">
-              <Breadcrumb separator=">">
-                <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+              <Breadcrumb separator={<RightOutlined />}>
+                <Breadcrumb.Item href="/">Dashboard</Breadcrumb.Item>
+                <Breadcrumb.Item className="current">
+                  Active Nodes
+                </Breadcrumb.Item>
               </Breadcrumb>
 
               <div className="overview-list-wrapper">

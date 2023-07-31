@@ -1,27 +1,15 @@
 import React, { Component, useState } from "react";
-import isEmpty from "lodash/isEmpty";
-import { UpOutlined, DownOutlined } from "@ant-design/icons";
-import { Line } from "react-chartjs-2";
-import CustomLineChart from "./CustomLineChart";
-//import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
-//import LayoutContent from '@iso/components/utility/layoutContent';
 import Modals from "@iso/components/Feedback/Modal";
 import Popover from "@iso/components/uielements/popover";
 import { getData, setCookie, getCookie } from "CommonFunctions";
-//import { someFunc } from './monitor_functions'
-//import Spin from '@iso/ui/Antd/Spin/Spin';
-// import Input from '@iso/components/uielements/input';
 import { ModalContent } from "../Feedback/Modal/Modal.styles";
 import { Layout, Button, Input, Breadcrumb, Select } from "antd";
+import { Line } from "react-chartjs-2";
+import CustomLineChart from "./CustomLineChart";
 import "./styles.css";
-import { Link } from "react-router-dom";
-import { PUBLIC_ROUTE } from "../../route.constants";
 import { SearchOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-//import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
-
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartFull from "@iso/assets/images/heart-full.png";
-
 import imageDO from "@iso/assets/images/do.png";
 import imageAWS from "@iso/assets/images/aws.png";
 import imageGCP from "@iso/assets/images/gcp.png";
@@ -42,11 +30,9 @@ import bitcoin from "@iso/assets/images/bitcoin.png";
 import litecoin from "@iso/assets/images/litecoin.png";
 import bitcoincash from "@iso/assets/images/bitcoincash.png";
 import dogecoin from "@iso/assets/images/dogecoin.png";
-//import luna from '@iso/assets/images/luna.png';
 import gaia from "@iso/assets/images/atom.png";
 import thornode from "@iso/assets/images/thornode.svg";
 import avax from "@iso/assets/images/avax.png";
-
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
 import lowTradingIcon from "@iso/assets/images/overview/24low_trading.svg";
@@ -57,18 +43,15 @@ import mcapRankIcon from "@iso/assets/images/overview/mcap_rank.svg";
 import runeUsdtIcon from "@iso/assets/images/overview/rune_usdt.svg";
 import timeIcon from "@iso/assets/images/overview/time_icon.svg";
 import totalSupplyIcon from "@iso/assets/images/overview/total_supply.svg";
-import filterIcon from "@iso/assets/images/overview/filter.svg";
 import loadingIcon from "@iso/assets/images/overview/loading.png";
 import githubIcon from "@iso/assets/images/overview/github_link_icon.svg";
 import twitterIcon from "@iso/assets/images/overview/twitter_link_icon.svg";
 import liquifyLogo from "@iso/assets/images/overview/liquify_logo.svg";
-
 import threeDotsIcon from "@iso/assets/images/overview/dots_three_circle.svg";
 import powerIcon from "@iso/assets/images/overview/power.svg";
 import activeIcon from "@iso/assets/images/overview/active_icon.svg";
-import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
-
 import VisibleColumn from "@iso/components/VisibleColumn/VisibleColumn";
+import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
 
 const leaveIcon = (
   <svg
@@ -111,6 +94,7 @@ const iconStyle = {
   padding: 5,
   paddingLeft: 10,
   paddingRight: 10,
+  padding: "10px 15px",
 };
 
 async function copyToClipWithPopup(msg, ip) {
@@ -141,11 +125,11 @@ function popUpModal(msg, ip) {
   });
 }
 
-const SortIcon = ({ column, sortBy, sortDirection }) => {
-  if (sortBy === column) {
+const SortIcon = ({ sortBy, column, sortDirection }) => {
+  if (sortBy == column) {
     return (
       <img
-        className={`sort-icon ${sortDirection === "desc" ? "down" : "up"}`}
+        className={`sort-icon ${sortDirection}`}
         src={arrowDownIcon}
         width={12}
       />
@@ -166,7 +150,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           rel="noopener noreferrer"
           style={{ marginLeft: 5 }}
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M29.25,6.76a6,6,0,0,0-8.5,0l1.42,1.42a4,4,0,1,1,5.67,5.67l-8,8a4,4,0,1,1-5.67-5.66l1.41-1.42-1.41-1.42-1.42,1.42a6,6,0,0,0,0,8.5A6,6,0,0,0,17,25a6,6,0,0,0,4.27-1.76l8-8A6,6,0,0,0,29.25,6.76Z"></path><path d="M4.19,24.82a4,4,0,0,1,0-5.67l8-8a4,4,0,0,1,5.67,0A3.94,3.94,0,0,1,19,14a4,4,0,0,1-1.17,2.85L15.71,19l1.42,1.42,2.12-2.12a6,6,0,0,0-8.51-8.51l-8,8a6,6,0,0,0,0,8.51A6,6,0,0,0,7,28a6.07,6.07,0,0,0,4.28-1.76L9.86,24.82A4,4,0,0,1,4.19,24.82Z"></path></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -194,7 +177,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </a>
       </Popover>
-
       <Popover content={"Thornode API"} trigger="hover">
         <a
           href={firstURL}
@@ -202,7 +184,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           rel="noopener noreferrer"
           style={{ marginLeft: 5 }}
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M26,22a3.86,3.86,0,0,0-2,.57l-3.09-3.1a6,6,0,0,0,0-6.94L24,9.43A3.86,3.86,0,0,0,26,10a4,4,0,1,0-4-4,3.86,3.86,0,0,0,.57,2l-3.1,3.09a6,6,0,0,0-6.94,0L9.43,8A3.86,3.86,0,0,0,10,6a4,4,0,1,0-4,4,3.86,3.86,0,0,0,2-.57l3.09,3.1a6,6,0,0,0,0,6.94L8,22.57A3.86,3.86,0,0,0,6,22a4,4,0,1,0,4,4,3.86,3.86,0,0,0-.57-2l3.1-3.09a6,6,0,0,0,6.94,0L22.57,24A3.86,3.86,0,0,0,22,26a4,4,0,1,0,4-4ZM26,4a2,2,0,1,1-2,2A2,2,0,0,1,26,4ZM4,6A2,2,0,1,1,6,8,2,2,0,0,1,4,6ZM6,28a2,2,0,1,1,2-2A2,2,0,0,1,6,28Zm10-8a4,4,0,1,1,4-4A4,4,0,0,1,16,20Zm10,8a2,2,0,1,1,2-2A2,2,0,0,1,26,28Z"></path></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -258,7 +239,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </a>
       </Popover>
-
       <Popover content={ip_address} title={"IP Address"} trigger="hover">
         <span
           style={{ cursor: "pointer", marginLeft: 5 }}
@@ -266,7 +246,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             copyToClipWithPopup("IP Copied to clipboard:", ip_address)
           }
         >
-          {/* <svg focusable="false" preserveAspectRatio="xMidYMid meet" style={{verticalAlign: 'middle'}} xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.7)" width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2a8 8 0 108 8A8.0092 8.0092 0 0016 2zm5.91 7H19.4724a15.2457 15.2457 0 00-.7917-4.36A6.0088 6.0088 0 0121.91 9zM16.022 15.999h-.0076c-.3813-.1206-1.3091-1.8213-1.479-4.999h2.9292C17.2952 14.1763 16.3711 15.877 16.022 15.999zM14.5354 9c.1694-3.1763 1.0935-4.877 1.4426-4.999h.0076c.3813.1206 1.3091 1.8213 1.479 4.999zM13.3193 4.64A15.2457 15.2457 0 0012.5276 9H10.09A6.0088 6.0088 0 0113.3193 4.64zM10.09 11h2.4373a15.2457 15.2457 0 00.7917 4.36A6.0088 6.0088 0 0110.09 11zm8.59 4.36A15.2457 15.2457 0 0019.4724 11H21.91A6.0088 6.0088 0 0118.6807 15.36zM28 30H4a2.0021 2.0021 0 01-2-2V22a2.0021 2.0021 0 012-2H28a2.0021 2.0021 0 012 2v6A2.0021 2.0021 0 0128 30zM4 22v6H28V22z"></path><circle cx="7" cy="25" r="1"></circle></svg> */}
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
@@ -280,7 +259,7 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             <path
               d="M10.2916 1.08301H5.95831C5.81465 1.08301 5.67688 1.14008 5.5753 1.24166C5.47371 1.34324 5.41665 1.48102 5.41665 1.62467C5.41665 1.76833 5.47371 1.90611 5.5753 2.00769C5.67688 2.10927 5.81465 2.16634 5.95831 2.16634H10.2916C10.4353 2.16634 10.5731 2.22341 10.6747 2.32499C10.7762 2.42657 10.8333 2.56435 10.8333 2.70801V6.49967H1.62498C1.48132 6.49967 1.34355 6.55674 1.24196 6.65833C1.14038 6.75991 1.08331 6.89768 1.08331 7.04134V8.12467C1.08331 8.55565 1.25452 8.96898 1.55926 9.27372C1.86401 9.57847 2.27734 9.74967 2.70831 9.74967H4.33331V10.833H2.70831C2.56465 10.833 2.42688 10.8901 2.3253 10.9917C2.22371 11.0932 2.16665 11.231 2.16665 11.3747C2.16665 11.5183 2.22371 11.6561 2.3253 11.7577C2.42688 11.8593 2.56465 11.9163 2.70831 11.9163H10.2916C10.4353 11.9163 10.5731 11.8593 10.6747 11.7577C10.7762 11.6561 10.8333 11.5183 10.8333 11.3747C10.8333 11.231 10.7762 11.0932 10.6747 10.9917C10.5731 10.8901 10.4353 10.833 10.2916 10.833H8.66665V9.74967H10.2916C10.7226 9.74967 11.1359 9.57847 11.4407 9.27372C11.7454 8.96898 11.9166 8.55565 11.9166 8.12467V2.70801C11.9166 2.27703 11.7454 1.86371 11.4407 1.55896C11.1359 1.25421 10.7226 1.08301 10.2916 1.08301ZM7.58331 10.833H5.41665V9.74967H7.58331V10.833ZM10.8333 8.12467C10.8333 8.26833 10.7762 8.40611 10.6747 8.50769C10.5731 8.60927 10.4353 8.66634 10.2916 8.66634H2.70831C2.56465 8.66634 2.42688 8.60927 2.3253 8.50769C2.22371 8.40611 2.16665 8.26833 2.16665 8.12467V7.58301H10.8333V8.12467Z"
               fill="currentColor"
-            />{" "}
+            />
             <path
               d="M3.9044 3.30042L2.78573 4.75234L1.66706 3.30042C1.36512 2.90853 1.36759 2.45798 1.57491 2.09161C1.78501 1.72031 2.21379 1.42871 2.78573 1.42871C3.35767 1.42871 3.78646 1.72031 3.99656 2.09161C4.20388 2.45798 4.20634 2.90853 3.9044 3.30042Z"
               stroke="currentColor"
@@ -293,7 +272,6 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
           </svg>
         </span>
       </Popover>
-
       <img
         alt="#"
         onClick={() => addToFav(address)}
@@ -664,23 +642,17 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("node_address"),
                     textAlign: "center",
+                    minWidth: 100,
                   }}
-                  onClick={() => clickSortHeader("node_address")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Validator Nodes</span>
+                  <span onClick={() => clickSortHeader("node_address")}>
+                    Validator Nodes
                     <SortIcon
                       column={"node_address"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("age")}
@@ -688,23 +660,17 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("age"),
                     textAlign: "center",
+                    minWidth: 90,
                   }}
-                  onClick={() => clickSortHeader("age")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Age</span>
+                  <span onClick={() => clickSortHeader("age")}>
+                    Age
                     <SortIcon
                       column={"age"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("action")}
@@ -712,23 +678,17 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("action"),
                     textAlign: "center",
+                    minWidth: 100,
                   }}
-                  onClick={() => clickSortHeader("action")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Action</span>
+                  <span onClick={() => clickSortHeader("action")}>
+                    Action
                     <SortIcon
                       column={"action"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("isp")}
@@ -736,71 +696,52 @@ const NodeTable = ({
                     ...headerStyle,
                     color: sortColour("isp"),
                     textAlign: "center",
+                    minWidth: 50,
                   }}
-                  onClick={() => clickSortHeader("isp")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>ISP</span>
+                  <span onClick={() => clickSortHeader("isp")}>
+                    ISP
                     <SortIcon
                       column={"isp"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
-                  className={getHeaderClassName("location")}
+                  className="tableHeader"
                   style={{
                     ...headerStyle,
                     color: sortColour("location"),
                     textAlign: "center",
+                    minWidth: 100,
                   }}
-                  onClick={() => clickSortHeader("location")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Location</span>
+                  <span onClick={() => clickSortHeader("location")}>
+                    Location
                     <SortIcon
                       column={"location"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("bond")}
                   style={{
                     ...headerStyle,
                     color: sortColour("bond"),
-                    textAlign: "center",
+                    minWidth: 75,
                   }}
-                  onClick={() => clickSortHeader("bond")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Bond</span>
+                  <span onClick={() => clickSortHeader("bond")}>
+                    Bond
                     <SortIcon
                       column={"bond"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("providers")}
@@ -809,22 +750,15 @@ const NodeTable = ({
                     color: sortColour("bond_providers"),
                     textAlign: "center",
                   }}
-                  onClick={() => clickSortHeader("bond_providers")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Providers</span>
+                  <span onClick={() => clickSortHeader("bond_providers")}>
+                    Providers
                     <SortIcon
                       column={"bond_providers"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("rewards")}
@@ -833,46 +767,28 @@ const NodeTable = ({
                     color: sortColour("current_award"),
                     textAlign: "center",
                   }}
-                  onClick={() => clickSortHeader("current_award")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Rewards</span>
+                  <span onClick={() => clickSortHeader("current_award")}>
+                    Rewards
                     <SortIcon
                       column={"current_award"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("apy")}
-                  style={{
-                    ...headerStyle,
-                    color: sortColour("apy"),
-                    textAlign: "center",
-                  }}
-                  onClick={() => clickSortHeader("apy")}
+                  style={{ ...headerStyle, color: sortColour("apy") }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>APY</span>
+                  <span onClick={() => clickSortHeader("apy")}>
+                    APY
                     <SortIcon
                       column={"apy"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("slashes")}
@@ -881,96 +797,59 @@ const NodeTable = ({
                     color: sortColour("slash_points"),
                     textAlign: "center",
                   }}
-                  onClick={() => clickSortHeader("slash_points")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Slashes</span>
+                  <span onClick={() => clickSortHeader("slash_points")}>
+                    Slashes
                     <SortIcon
                       column={"slash_points"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("score")}
-                  style={{
-                    ...headerStyle,
-                    color: sortColour("score"),
-                    textAlign: "center",
-                  }}
-                  onClick={() => clickSortHeader("score")}
+                  style={{ ...headerStyle, color: sortColour("score") }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Score</span>
+                  <span onClick={() => clickSortHeader("score")}>
+                    Score
                     <SortIcon
                       column={"score"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
                   className={getHeaderClassName("version")}
-                  style={{
-                    ...headerStyle,
-                    color: sortColour("version"),
-                    textAlign: "center",
-                  }}
-                  onClick={() => clickSortHeader("version")}
+                  style={{ ...headerStyle, color: sortColour("version") }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>Version</span>
+                  <span onClick={() => clickSortHeader("version")}>
+                    Version
                     <SortIcon
                       column={"version"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
                 <th
-                  className={getHeaderClassName("leave")}
+                  className="tableHeader"
                   style={{
                     ...headerStyle,
                     color: sortColour("leave"),
                     textAlign: "center",
                   }}
-                  onClick={() => clickSortHeader("leave")}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>{leaveIcon}</span>
+                  <span onClick={() => clickSortHeader("leave")}>
+                    {leaveIcon}
                     <SortIcon
                       column={"leave"}
                       sortBy={sortBy}
                       sortDirection={sortDirection}
                     />
-                  </div>
+                  </span>
                 </th>
-
                 <th
                   className={getHeaderClassName("rpc")}
                   style={{ ...headerStyle, textAlign: "center" }}
@@ -987,271 +866,124 @@ const NodeTable = ({
                 {chains && (
                   <>
                     <th
-                      className={getHeaderClassName("BNB")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("BNB")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={binance}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={binance}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"BNB"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
-                    </th>
-
-                    <th
-                      className={getHeaderClassName("BTC")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("BTC")}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <img
-                          alt="#"
-                          src={bitcoin}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px", // Add some spacing between the icon and the arrow
-                          }}
-                        />
-                        <SortIcon
-                          column={"BTC"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
-                    </th>
-
-                    <th
-                      className={getHeaderClassName("ETH")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("ETH")}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <img
-                          alt="#"
-                          src={eth}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"ETH"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
                     </th>
                     <th
-                      className={getHeaderClassName("LTC")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("LTC")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={bitcoin}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={litecoin}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"LTC"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
                     </th>
                     <th
-                      className={getHeaderClassName("BCH")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("BCH")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={eth}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={bitcoincash}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"BCH"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
                     </th>
                     <th
-                      className={getHeaderClassName("DOGE")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("DOGE")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={litecoin}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={dogecoin}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"DOGE"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
                     </th>
                     <th
-                      className={getHeaderClassName("GAIA")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("GAIA")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={bitcoincash}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={gaia}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"GAIA"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
                     </th>
-
                     <th
-                      className={getHeaderClassName("AVAX")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("AVAX")}
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
                     >
-                      <div
+                      <img
+                        alt="#"
+                        src={dogecoin}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
                         }}
-                      >
-                        <img
-                          alt="#"
-                          src={avax}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"AVAX"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                      </div>
+                      />
+                    </th>
+                    <th
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
+                    >
+                      <img
+                        alt="#"
+                        src={gaia}
+                        style={{
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    </th>
+                    <th
+                      className="tableHeader"
+                      style={{ ...headerStyle, ...iconStyle }}
+                    >
+                      <img
+                        alt="#"
+                        src={avax}
+                        style={{
+                          width: 25,
+                          height: 25,
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
                     </th>
                   </>
                 )}
@@ -1265,20 +997,14 @@ const NodeTable = ({
                       backgroundColor: "rgba(24, 34, 51, 0.4)",
                       minWidth: 35,
                       width: 50,
-                      paddingLeft: 3,
-                      textAlign: "center",
+                      paddingLeft: 5,
                     }}
                   >
                     {index + 1}
                   </td>
                   <td
                     className={getCellClassName("nodes")}
-                    style={{
-                      ...tdStyle,
-                      textAlign: "center",
-                      minWidth: 195,
-                      maxWidth: 201,
-                    }}
+                    style={{ ...tdStyle, textAlign: "center", minWidth: 200 }}
                   >
                     <Popover
                       content={item.node_address}
@@ -1413,7 +1139,6 @@ const NodeTable = ({
                       ).toLocaleString()}
                     </Popover>
                   </td>
-
                   <td
                     className={getCellClassName("apy")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1446,7 +1171,6 @@ const NodeTable = ({
                       {parseInt(item.slash_points).toLocaleString()}
                     </Popover>
                   </td>
-
                   <td
                     className={getCellClassName("score")}
                     style={{ ...tdStyle, textAlign: "center" }}
@@ -1579,8 +1303,6 @@ const defaulColumns = {
   isp: true,
   bond: true,
   providers: true,
-  location: true,
-  leave: true,
   rewards: true,
   apy: true,
   slashes: true,
@@ -1588,14 +1310,6 @@ const defaulColumns = {
   version: true,
   rpc: true,
   bfr: true,
-  BTC: true,
-  BNB: true,
-  ETH: true,
-  LTC: true,
-  BCH: true,
-  DOGE: true,
-  GAIA: true,
-  AVAX: true,
 };
 export default class extends Component {
   constructor(props) {
@@ -1615,7 +1329,6 @@ export default class extends Component {
       visibleColumns: defaulColumns,
       nodesFilter: {},
       loading: true,
-      sortByChain: null,
     };
     this.clickSortHeader = this.clickSortHeader.bind(this);
     this.handleClickRewards = this.handleClickRewards.bind(this);
@@ -1641,7 +1354,7 @@ export default class extends Component {
     }
 
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      // console.log('DEV ONLY: Refresh Data Results: ', data)
+      console.log("DEV ONLY: Refresh Data Results: ", data);
     }
 
     this.setState(
@@ -1667,11 +1380,6 @@ export default class extends Component {
   }
 
   addToFav(address) {
-    //setCookie('myFavNodes', '')
-    //return
-
-    //Below works to add, but need to check if already exists, and if so remove
-
     const myFavNodes = getCookie("myFavNodes"); //JSON.parse(
 
     if (myFavNodes.length === 0) {
@@ -1718,10 +1426,10 @@ export default class extends Component {
   }
 
   setData() {
-    // Grab our state so we can mutate it
+    //Grab our state so we can mutate it
     let myData = JSON.parse(JSON.stringify(this.state.data));
 
-    // Add faves to the data, then we can sort by then below
+    //Add faves to the data, then we can sort by then below
     const newItems = myData.map((item) => {
       if (this.state.myFavNodes.includes(item.node_address)) {
         item.fave = 1;
@@ -1731,7 +1439,15 @@ export default class extends Component {
       return item;
     });
 
-    // Filter for our three tables
+    /*
+Whitelisted
+Active
+Standby
+Ready
+Disabled
+*/
+
+    //Filter for our three tables
     let activeNodes = newItems.filter((item) => item.status === "Active");
     let standbyNodes = newItems.filter(
       (item) =>
@@ -1739,55 +1455,48 @@ export default class extends Component {
         item.version === this.state.globalData.maxVersion
     );
 
-    // Create an array of all nodes that are active and standby
+    //Create an array of all nodes that are active and standby
     const active_standy_nodes = [
-      ...activeNodes.map((item) => item.node_address),
-      ...standbyNodes.map((item) => item.node_address),
+      ...activeNodes.map((item) => {
+        return item.node_address;
+      }),
+      ...standbyNodes.map((item) => {
+        return item.node_address;
+      }),
     ];
-
-    // White listed are all other nodes which are not active or on standby
+    //White listed are all other nodes which are not active or on standby
+    //White listed is really just "Other"
     let whitelisted = newItems.filter(
       (item) => !active_standy_nodes.includes(item.node_address)
     );
 
-    activeNodes = this.findChurnOuts(activeNodes); // Add in the actions for churning
-    standbyNodes = this.findChurnIns(standbyNodes); // Add in the actions for nodes churning in
+    //let whitelisted = newItems.filter(item => !(item.status ==='Active' || item.status ==='Standby' || item.status ==='Ready') /*&& item.version !== this.state.globalData.maxVersion*/)
 
-    // Filter here if any searchTerm from the search bar
+    activeNodes = this.findChurnOuts(activeNodes); //Add in the actions for churning
+    standbyNodes = this.findChurnIns(standbyNodes); //Add in the actions for nodes churning in
+
+    //Filter here if any searchTerm from the search bar
+    //Need to do after adding the actions
     activeNodes = this.returnSearchedData(activeNodes);
     standbyNodes = this.returnSearchedData(standbyNodes);
     whitelisted = this.returnSearchedData(whitelisted);
 
-    // Sort and add our favs to the top
-    let activeNodesSorted = this.sortData(
-      activeNodes,
-      this.state.sortBy,
-      this.state.sortDirection,
-      false
-    );
+    //Sort and add our favs to the top
+    let activeNodesSorted = this.sortData(activeNodes);
     const favActiveNodesSorted = activeNodesSorted.filter(
       (item) => item.fave === 1
-    ); // Get our favourites
-    activeNodesSorted = activeNodesSorted.filter((item) => item.fave === 0); // Get our non favourites
-    activeNodesSorted = [...favActiveNodesSorted, ...activeNodesSorted]; // Join faves at top with non favourites
+    ); //Get our favourites
+    activeNodesSorted = activeNodesSorted.filter((item) => item.fave === 0); //Get our non favourites
 
-    const standBySorted = this.sortData(
-      standbyNodes,
-      this.state.sortBy,
-      this.state.sortDirection,
-      false
-    );
-    const whitelistedSorted = this.sortData(
-      whitelisted,
-      this.state.sortBy,
-      this.state.sortDirection,
-      false
-    );
+    activeNodesSorted = [...favActiveNodesSorted, ...activeNodesSorted]; //Join faves at top with non favourites
+
+    const standBySorted = this.sortData(standbyNodes);
+    const whitelistedSorted = this.sortData(whitelisted);
 
     this.setState({
       activeNodes: activeNodesSorted,
       standByNodes: standBySorted,
-      whitelistedNodes: whitelistedSorted,
+      whitelistedNodes: whitelistedSorted, //This is really just other
     });
   }
 
@@ -1879,50 +1588,39 @@ We use string sort function if value is one of the arrays else do second sort nu
   sortData(data, value = null, direction = null, worst_perform = false) {
     const toSortBy = value === null ? this.state.sortBy : value;
     let newData = [];
-    if (this.state.sortChain) {
-      // New sorting logic for chains
-      const chain = toSortBy;
-      newData = [...data].sort((a, b) => {
-        const deltaA = a.obchains[chain] - this.state.maxChainHeights[chain];
-        const deltaB = b.obchains[chain] - this.state.maxChainHeights[chain];
-        if (deltaA === deltaB) {
+
+    if (
+      ["node", "isp", "location", "version", "action", "node_address"].includes(
+        toSortBy
+      )
+    ) {
+      //This sort function for strings
+      newData = data.sort((a, b) => a[toSortBy].localeCompare(b[toSortBy]));
+    } else if (toSortBy === "bond_providers") {
+      //This is for bond provider sort as we need to go another layer deep in the object
+      newData = data.sort(
+        (a, b) => a[toSortBy].providers.length - b[toSortBy].providers.length
+      );
+    } else if (worst_perform === true) {
+      //This is for when we are sorting for action of worst performance as we want to exclude any with age under 3 days
+      const ageCutOffDays = 3;
+      const a = data.filter((item) => parseFloat(item.age) > ageCutOffDays);
+      const b = data.filter((item) => parseFloat(item.age) <= ageCutOffDays);
+      const aSorted = a.sort((a, b) => b[toSortBy] - a[toSortBy]);
+
+      aSorted[aSorted.length - 1].action = "Worst Performing";
+      newData = [...aSorted, ...b];
+    } else {
+      //This sort function for numbers
+      //When sorting, if values are the same, sort by node_address
+      newData = data.sort(function (a, b) {
+        if (a[toSortBy] === b[toSortBy]) {
           return a["node_address"].localeCompare(b["node_address"]);
         }
-        return deltaA - deltaB;
+        return a[toSortBy] > b[toSortBy] ? 1 : -1;
       });
-    } else {
-      if (
-        [
-          "node",
-          "isp",
-          "location",
-          "version",
-          "action",
-          "node_address",
-        ].includes(toSortBy)
-      ) {
-        newData = data.sort((a, b) => a[toSortBy].localeCompare(b[toSortBy]));
-      } else if (toSortBy === "bond_providers") {
-        newData = data.sort(
-          (a, b) => a[toSortBy].providers.length - b[toSortBy].providers.length
-        );
-      } else if (worst_perform === true) {
-        const ageCutOffDays = 3;
-        const a = data.filter((item) => parseFloat(item.age) > ageCutOffDays);
-        const b = data.filter((item) => parseFloat(item.age) <= ageCutOffDays);
-        const aSorted = a.sort((a, b) => b[toSortBy] - a[toSortBy]);
-        aSorted[aSorted.length - 1].action = "Worst Performing";
-        newData = [...aSorted, ...b];
-      } else {
-        newData = data.sort(function (a, b) {
-          if (a[toSortBy] === b[toSortBy]) {
-            return a["node_address"].localeCompare(b["node_address"]);
-          }
-          return a[toSortBy] > b[toSortBy] ? 1 : -1;
-        });
-      }
     }
-
+    //If we pass it a direction, we set it here, if not we take it from the state
     const toDirection =
       direction === null ? this.state.sortDirection : direction;
     if (toDirection === "desc") {
@@ -1933,27 +1631,15 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   clickSortHeader(item) {
-    const isChain = [
-      "BNB",
-      "BTC",
-      "ETH",
-      "LTC",
-      "BCH",
-      "DOGE",
-      "GAIA",
-      "AVAX",
-    ].includes(item);
     const direction =
       this.state.sortBy !== item
         ? "desc"
         : this.state.sortDirection === "desc"
         ? "asc"
         : "desc";
-    this.setState(
-      { sortBy: item, sortDirection: direction, sortChain: isChain },
-      () => this.setData()
+    this.setState({ sortBy: item, sortDirection: direction }, () =>
+      this.setData()
     );
-    window.setTimeout(() => {}, 200);
   }
 
   sortColour(item) {
@@ -2044,24 +1730,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   render() {
-    const {
-      loading,
-      data,
-      nodesFilter,
-      visibleColumns,
-      activeNodes,
-      standByNodes,
-      whitelistedNodes,
-    } = this.state;
-
-    const noNodesFilter =
-      !nodesFilter.active && !nodesFilter.standby && !nodesFilter.orthers;
-    const showActive =
-      isEmpty(nodesFilter) || noNodesFilter || nodesFilter.active;
-    const showStandby =
-      isEmpty(nodesFilter) || noNodesFilter || nodesFilter.standby;
-    const showOthers =
-      isEmpty(nodesFilter) || noNodesFilter || nodesFilter.orthers;
+    const { loading, nodesFilter, visibleColumns, standByNodes } = this.state;
 
     const chartDataConfig = this.state.chartData
       ? {
@@ -2200,22 +1869,13 @@ We use string sort function if value is one of the arrays else do second sort nu
             <span>Thornode Monitor</span>
           </div>
           <div className="header-right">
-            {/* <div className={`active-node ${nodesFilter.active ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('active')}><img src={activeIcon}/></div>
-          <div className={`active-node ${nodesFilter.standby ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('standby')}><img src={powerIcon}/></div>
-          <div className={`active-node ${nodesFilter.orthers ? "active-node--active" : null}`} onClick={()=>this.onNodesFilter('orthers')}><img src={threeDotsIcon}/></div> */}
             <div
               className={`active-node ${
                 nodesFilter.active ? "active-node--active" : null
               }`}
               onClick={() => this.onNodesFilter("active")}
             >
-              <Popover
-                content="Active nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={activeIcon} />
-              </Popover>
+              <img src={activeIcon} />
             </div>
             <div
               className={`active-node ${
@@ -2223,13 +1883,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               }`}
               onClick={() => this.onNodesFilter("standby")}
             >
-              <Popover
-                content="Standby nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={powerIcon} />
-              </Popover>
+              <img src={powerIcon} />
             </div>
             <div
               className={`active-node ${
@@ -2237,13 +1891,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               }`}
               onClick={() => this.onNodesFilter("orthers")}
             >
-              <Popover
-                content="Orther nodes"
-                title={"Filter by"}
-                trigger="hover"
-              >
-                <img src={threeDotsIcon} />
-              </Popover>
+              <img src={threeDotsIcon} />
             </div>
           </div>
         </Header>
@@ -2256,8 +1904,11 @@ We use string sort function if value is one of the arrays else do second sort nu
 
           {!loading && (
             <div className="layout-content-wrapper">
-              <Breadcrumb separator=">">
-                <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+              <Breadcrumb separator={<RightOutlined />}>
+                <Breadcrumb.Item href="/">Dashboard</Breadcrumb.Item>
+                <Breadcrumb.Item className="current">
+                  Standby Nodes
+                </Breadcrumb.Item>
               </Breadcrumb>
 
               <div className="overview-list-wrapper">
@@ -2271,161 +1922,50 @@ We use string sort function if value is one of the arrays else do second sort nu
                 </div>
               </div>
 
-              {showActive && (
-                <>
-                  <div className="cta-wrapper">
-                    <div className="cta-link">
-                      <Link to={PUBLIC_ROUTE.ACTIVE_DASHBOARD}>
-                        <Button type="primary" className="uppercase">
-                          Active nodes
-                        </Button>
-                      </Link>
-                    </div>
-                    {this.searchBar()}
-
-                    <VisibleColumn
-                      initialConfig={visibleColumns}
-                      onConfigUpdate={this.onColumnUpdate.bind(this)}
-                    />
+              <>
+                <div className="cta-wrapper">
+                  <div className="cta-link">
+                    <Button type="primary" className="uppercase">
+                      Standby Nodes
+                    </Button>
                   </div>
+                  {this.searchBar()}
 
-                  {activeNodes.length > 0 && (
-                    <NodeTable
-                      visibleColumns={visibleColumns}
-                      whichHeart={this.whichHeart.bind(this)}
-                      addToFav={this.addToFav.bind(this)}
-                      nodeData={activeNodes}
-                      clickSortHeader={this.clickSortHeader.bind(this)}
-                      handleClickBond={this.handleClickBond}
-                      handleClickRewards={this.handleClickRewards}
-                      handleClickSlashes={this.handleClickSlashes}
-                      sortColour={this.sortColour.bind(this)}
-                      maxChainHeights={this.state.maxChainHeights}
-                      chains={true}
-                      sortBy={this.state.sortBy}
-                      sortDirection={this.state.sortDirection}
-                      chartDataConfig={chartDataConfig}
-                      bondOptions={bondOptions}
-                      rewardsOptions={rewardsOptions}
-                      slashesOptions={slashesOptions}
-                    />
-                  )}
-                  {activeNodes.length === 0 && (
-                    <div className="no-data">
-                      <div className="no-data__content">
-                        No Active Data Available!
-                      </div>
+                  <VisibleColumn
+                    initialConfig={visibleColumns}
+                    onConfigUpdate={this.onColumnUpdate.bind(this)}
+                  />
+                </div>
+
+                {standByNodes.length > 0 && (
+                  <NodeTable
+                    visibleColumns={visibleColumns}
+                    whichHeart={this.whichHeart.bind(this)}
+                    addToFav={this.addToFav.bind(this)}
+                    nodeData={standByNodes}
+                    clickSortHeader={this.clickSortHeader.bind(this)}
+                    handleClickBond={this.handleClickBond}
+                    handleClickRewards={this.handleClickRewards}
+                    handleClickSlashes={this.handleClickSlashes}
+                    sortColour={this.sortColour.bind(this)}
+                    maxChainHeights={this.state.maxChainHeights}
+                    chains={false}
+                    sortBy={this.state.sortBy}
+                    sortDirection={this.state.sortDirection}
+                    chartDataConfig={chartDataConfig}
+                    bondOptions={bondOptions}
+                    rewardsOptions={rewardsOptions}
+                    slashesOptions={slashesOptions}
+                  />
+                )}
+                {standByNodes.length === 0 && (
+                  <div className="no-data">
+                    <div className="no-data__content">
+                      No Standby Data Available!
                     </div>
-                  )}
-                  <br />
-                </>
-              )}
-
-              {showStandby && (
-                <>
-                  <div className="cta-wrapper">
-                    <div className="cta-link">
-                      <Link to={PUBLIC_ROUTE.STANDBY_DASHBOARD}>
-                        <Button type="primary" className="uppercase">
-                          Standby nodes
-                        </Button>
-                      </Link>
-                    </div>
-
-                    {!showActive && (
-                      <>
-                        {this.searchBar()}
-                        <VisibleColumn
-                          initialConfig={visibleColumns}
-                          onConfigUpdate={this.onColumnUpdate.bind(this)}
-                        />
-                      </>
-                    )}
                   </div>
-
-                  {standByNodes.length > 0 && (
-                    <NodeTable
-                      visibleColumns={visibleColumns}
-                      whichHeart={this.whichHeart.bind(this)}
-                      addToFav={this.addToFav.bind(this)}
-                      nodeData={standByNodes}
-                      clickSortHeader={this.clickSortHeader.bind(this)}
-                      handleClickBond={this.handleClickBond}
-                      handleClickRewards={this.handleClickRewards}
-                      handleClickSlashes={this.handleClickSlashes}
-                      sortColour={this.sortColour.bind(this)}
-                      maxChainHeights={this.state.maxChainHeights}
-                      chains={false}
-                      sortBy={this.state.sortBy}
-                      sortDirection={this.state.sortDirection}
-                      chartDataConfig={chartDataConfig}
-                      bondOptions={bondOptions}
-                      rewardsOptions={rewardsOptions}
-                      slashesOptions={slashesOptions}
-                    />
-                  )}
-                  {standByNodes.length === 0 && (
-                    <div className="no-data">
-                      <div className="no-data__content">
-                        No Standby Data Available!
-                      </div>
-                    </div>
-                  )}
-                  <br />
-                </>
-              )}
-              {showOthers && (
-                <>
-                  <div className="cta-wrapper">
-                    <div className="cta-link">
-                      <Link to={PUBLIC_ROUTE.OTHER_DASHBOARD}>
-                        <Button type="primary" className="uppercase">
-                          Other nodes
-                        </Button>
-                      </Link>
-                    </div>
-
-                    {!showActive && !showStandby && (
-                      <>
-                        {this.searchBar()}
-                        <VisibleColumn
-                          initialConfig={visibleColumns}
-                          onConfigUpdate={this.onColumnUpdate.bind(this)}
-                        />
-                      </>
-                    )}
-                  </div>
-
-                  {whitelistedNodes.length > 0 && (
-                    <NodeTable
-                      visibleColumns={visibleColumns}
-                      whichHeart={this.whichHeart.bind(this)}
-                      addToFav={this.addToFav.bind(this)}
-                      nodeData={whitelistedNodes}
-                      clickSortHeader={this.clickSortHeader.bind(this)}
-                      handleClickBond={this.handleClickBond}
-                      handleClickRewards={this.handleClickRewards}
-                      handleClickSlashes={this.handleClickSlashes}
-                      sortColour={this.sortColour.bind(this)}
-                      maxChainHeights={this.state.maxChainHeights}
-                      chains={false}
-                      sortBy={this.state.sortBy}
-                      sortDirection={this.state.sortDirection}
-                      chartDataConfig={chartDataConfig}
-                      bondOptions={bondOptions}
-                      rewardsOptions={rewardsOptions}
-                      slashesOptions={slashesOptions}
-                    />
-                  )}
-                  {whitelistedNodes.length === 0 && (
-                    <div className="no-data">
-                      <div className="no-data__content">
-                        No Other Data Available!
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
+                )}
+              </>
             </div>
           )}
         </Content>

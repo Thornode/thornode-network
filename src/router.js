@@ -17,7 +17,22 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import('@iso/containers/A_monitor/monitorpage.js')),
     //component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
-  }
+  },
+  {
+    path: PUBLIC_ROUTE.ACTIVE_DASHBOARD,
+    exact: true,
+    component: lazy(() => import('@iso/containers/A_monitor/activepage.js')),
+  },
+  {
+    path: PUBLIC_ROUTE.STANDBY_DASHBOARD,
+    exact: true,
+    component: lazy(() => import('@iso/containers/A_monitor/standbypage.js')),
+  },
+  {
+    path: PUBLIC_ROUTE.OTHER_DASHBOARD,
+    exact: true,
+    component: lazy(() => import('@iso/containers/A_monitor/otherpage.js')),
+  },
 ];
 
 export default function Routes() {

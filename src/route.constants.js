@@ -7,6 +7,9 @@ export const PUBLIC_ROUTE = {
 	PAGE_404: '/404',
 	PAGE_500: '/500',
 	AUTH0_CALLBACK: '/auth0loginCallback',
+	ACTIVE_DASHBOARD: '/active-dashboard',
+	STANDBY_DASHBOARD: '/standby-dashboard',
+	OTHER_DASHBOARD: '/other-dashboard',
 };
 
 export const PRIVATE_ROUTE = {

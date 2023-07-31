@@ -6,6 +6,8 @@ import { awsConfig } from './aws-exports';
 import moment from 'moment';
 import semver from 'semver';
 
+import axios from 'axios';
+
 
 import { store } from './redux/store';
 import authActions from '@iso/redux/auth/actions';
@@ -17,7 +19,15 @@ export const getData = async () => {
   //const [firstLoad, setFirstLoad] = useState(false);
 
   const blockTime = 6 //6 seconds Need to calc this properly
-  const val = await API.get('MyAWSApi', '');
+  // const val = await API.get('MyAWSApi', '');
+  // const val = prodData;
+  var val = {};
+  try {
+    const res = await fetch("https://api.liquify.com/thor/api/grabData");
+    val = await res.json();
+  } catch (error) {
+    val = {};
+  }
 
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       console.log('DEV ONLY: Raw getData API Call Results: ', val)
@@ -108,16 +118,17 @@ export const getData = async () => {
   const maxBCHHeight = reduceDown(data2, 'BCH')
   const maxBNBHeight = reduceDown(data2, 'BNB')
   const maxGAIAHeight = reduceDown(data2, 'GAIA')
+  const maxAVAXHeight = reduceDown(data2, 'AVAX')
 
   const totalBondedValue = (val.data.map(item => item.bond).reduce((prev, next) => prev + next))/100000000;
   globalData.totalBondedValue = totalBondedValue;
 
-  return {data: val.data, globalData: globalData, maxChainHeights: {BTC: maxBTCHeight, DOGE: maxDogeHeight, ETH: maxEthHeight, LTC: maxLTCHeight, GAIA: maxGAIAHeight, BCH: maxBCHHeight, BNB: maxBNBHeight}}
+  return {data: val.data, globalData: globalData, maxChainHeights: {BTC: maxBTCHeight, DOGE: maxDogeHeight, ETH: maxEthHeight, LTC: maxLTCHeight, GAIA: maxGAIAHeight, BCH: maxBCHHeight, BNB: maxBNBHeight, AVAX: maxAVAXHeight}}
 }
 
 export const refreshData = async () => {
+  return false
 
-  apiCall('getUserData')
   .then(results => {
     store.dispatch(authActions.saveData(results))
 
