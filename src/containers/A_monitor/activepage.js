@@ -28,6 +28,8 @@ import imageChoopa from "@iso/assets/images/choopa.png";
 import imageChartercoms from "@iso/assets/images/chartercoms.png";
 import imageATandT from "@iso/assets/images/atandt.png";
 import imageZenlayer from "@iso/assets/images/zenlayer.png";
+import imageAljeel from "@iso/assets/images/Aljeel.png"
+import imageHostinger from "@iso/assets/images/Hostinger.png"
 
 import binance from "@iso/assets/images/binance.png";
 import eth from "@iso/assets/images/eth.png";
@@ -484,6 +486,14 @@ const ReturnIspImage = ({ isp }) => {
 
   if (isp === "Zenlayer Inc") {
     return <img alt="#" src={imageZenlayer} style={style} />;
+  }
+
+  if (isp === "Aljeel Aljadeed For Technology") {
+    return <img alt="#" src={imageAljeel} style={style} />;
+  }
+
+  if (isp === "Hostinger International Limited") {
+    return <img alt="#" src={imageHostinger} style={style} />;
   }
 
   return "-";
