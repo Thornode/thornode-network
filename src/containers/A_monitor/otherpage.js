@@ -1695,7 +1695,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Number(y),
+          y: Math.round(Number(y) / 100000000),
         }));
         this.setState({ chartData });
       }
@@ -1850,13 +1850,6 @@ We use string sort function if value is one of the arrays else do second sort nu
                 scaleLabel: {
                   display: true,
                   labelString: "Bond Value",
-                },
-                ticks: {
-                  min: Math.min(...this.state.chartData.map((data) => data.y)),
-                  stepSize: 20000,
-                  callback: function (value) {
-                    return value.toString();
-                  },
                 },
               },
             ],
