@@ -2073,6 +2073,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               fill: false,
               backgroundColor: "rgb(28, 57, 182)",
               borderColor: "rgba(28, 57, 187, 0.2)",
+              tension: 0,
             },
           ],
         }
@@ -2087,7 +2088,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                 position: "bottom",
                 scaleLabel: {
                   display: true,
-                  labelString: "Height",
+                  labelString: "Block Height",
                 },
                 ticks: {
                   callback: function (value, index, values) {
@@ -2117,7 +2118,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                 position: "bottom",
                 scaleLabel: {
                   display: true,
-                  labelString: "Height",
+                  labelString: "Block Height",
                 },
                 ticks: {
                   callback: function (value, index, values) {
@@ -2130,7 +2131,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 scaleLabel: {
                   display: true,
-                  labelString: "Reward Value",
+                  labelString: "Reward Amount (ᚱ)",
                 },
               },
             ],
@@ -2147,7 +2148,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                 position: "bottom",
                 scaleLabel: {
                   display: true,
-                  labelString: "Height",
+                  labelString: "Block Height",
                 },
                 ticks: {
                   autoSkip: true,
@@ -2164,7 +2165,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 scaleLabel: {
                   display: true,
-                  labelString: "Bond Value",
+                  labelString: "Bond Amount (ᚱ)",
                 },
               },
             ],
