@@ -7,7 +7,12 @@ import { Layout, Button, Input, Breadcrumb, Select } from "antd";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
 import "./styles.css";
-import { SearchOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  LeftOutlined,
+  RightOutlined,
+  HistoryOutlined,
+} from "@ant-design/icons";
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartFull from "@iso/assets/images/heart-full.png";
 import imageDO from "@iso/assets/images/do.png";
@@ -524,6 +529,7 @@ const BondProviderPopOver = ({ data }) => {
 };
 
 const NodeTable = ({
+  handlePopoverVisibility,
   nodeData,
   clickSortHeader,
   handleClickBond,
@@ -1085,11 +1091,22 @@ const NodeTable = ({
                       )}`}
                       trigger="click"
                       overlayClassName="my-custom-popover"
+                      onVisibleChange={(visible) =>
+                        handlePopoverVisibility(visible)
+                      }
                     >
-                      ᚱ
-                      {parseInt(
-                        (item.bond / 100000000).toFixed()
-                      ).toLocaleString()}
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          color: "#1890ff",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
+                        {parseInt(
+                          (item.bond / 100000000).toFixed()
+                        ).toLocaleString()}
+                      </span>
                     </Popover>
                   </td>
                   <td
@@ -1134,11 +1151,22 @@ const NodeTable = ({
                       )}`}
                       trigger="click"
                       overlayClassName="my-custom-popover"
+                      onVisibleChange={(visible) =>
+                        handlePopoverVisibility(visible)
+                      }
                     >
-                      ᚱ
-                      {parseInt(
-                        (item.current_award / 100000000).toFixed()
-                      ).toLocaleString()}
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          color: "#1890ff",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
+                        {parseInt(
+                          (item.current_award / 100000000).toFixed()
+                        ).toLocaleString()}
+                      </span>
                     </Popover>
                   </td>
                   <td
@@ -1170,8 +1198,20 @@ const NodeTable = ({
                       )}`}
                       trigger="click"
                       overlayClassName="my-custom-popover"
+                      onVisibleChange={(visible) =>
+                        handlePopoverVisibility(visible)
+                      }
                     >
-                      {parseInt(item.slash_points).toLocaleString()}
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          color: "#1890ff",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <HistoryOutlined style={{ marginRight: 4 }} />
+                        {parseInt(item.slash_points).toLocaleString()}
+                      </span>
                     </Popover>
                   </td>
                   <td
@@ -1318,6 +1358,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isPopoverOpen: false,
       chartData: [],
       data: [],
       globalData: [],
@@ -1339,6 +1380,10 @@ export default class extends Component {
     this.handleClickBond = this.handleClickBond.bind(this);
   }
 
+  handlePopoverVisibility = (visible) => {
+    this.setState({ isPopoverOpen: visible });
+  };
+
   async componentWillMount() {
     const myFavNodes = getCookie("myFavNodes");
 
@@ -1350,6 +1395,9 @@ export default class extends Component {
   }
 
   async refreshData() {
+    if (this.state.isPopoverOpen) {
+      return;
+    }
     const data = await getData();
 
     if (this.state.loading) {
@@ -1418,12 +1466,17 @@ export default class extends Component {
   }
 
   returnSearchedData(data) {
-      if (this.state.searchTerm === '') {
-        return data
-      } else {
-        const filteredNodes = data.filter(item => {return (item.node_address.includes(this.state.searchTerm) || item.bondProvidersString.includes(this.state.searchTerm))})
-        return filteredNodes
-      }
+    if (this.state.searchTerm === "") {
+      return data;
+    } else {
+      const filteredNodes = data.filter((item) => {
+        return (
+          item.node_address.includes(this.state.searchTerm) ||
+          item.bondProvidersString.includes(this.state.searchTerm)
+        );
+      });
+      return filteredNodes;
+    }
   }
 
   setData() {
@@ -1652,6 +1705,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   handleClickSlashes = async (node_address) => {
+    this.setState({ isPopoverOpen: true });
     const url = `https://api.liquify.com/thor/api/grabSlashes=${node_address}`;
     try {
       const response = await fetch(url);
@@ -1671,6 +1725,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   };
 
   handleClickRewards = async (node_address) => {
+    this.setState({ isPopoverOpen: true });
     const url = `https://api.liquify.com/thor/api/grabRewards=${node_address}`;
     try {
       const response = await fetch(url);
@@ -1690,6 +1745,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   };
 
   handleClickBond = async (node_address) => {
+    this.setState({ isPopoverOpen: true });
     const url = `https://api.liquify.com/thor/api/grabBond=${node_address}`;
     try {
       const response = await fetch(url);
@@ -1951,6 +2007,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                     bondOptions={bondOptions}
                     rewardsOptions={rewardsOptions}
                     slashesOptions={slashesOptions}
+                    handlePopoverVisibility={this.handlePopoverVisibility}
                   />
                 )}
                 {standByNodes.length === 0 && (
