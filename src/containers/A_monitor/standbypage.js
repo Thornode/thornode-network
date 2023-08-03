@@ -59,6 +59,7 @@ import powerIcon from "@iso/assets/images/overview/power.svg";
 import activeIcon from "@iso/assets/images/overview/active_icon.svg";
 import VisibleColumn from "@iso/components/VisibleColumn/VisibleColumn";
 import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
+import verticalTopIcon from "@iso/assets/images/overview/vertical-align-top.svg";
 
 const leaveIcon = (
   <svg
@@ -362,7 +363,7 @@ const GlobalData = ({ globalData, animateBlockCount, state }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={bondIcon} className="overview-item__icon" />
+        <img alt="#" src={verticalTopIcon} className="overview-item__icon" />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MAX EFFECTIVE BOND</div>
           <div className="overview-item__value-value">

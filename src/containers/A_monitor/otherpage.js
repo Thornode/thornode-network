@@ -56,6 +56,7 @@ import mcapRankIcon from "@iso/assets/images/overview/mcap_rank.svg";
 import runeUsdtIcon from "@iso/assets/images/overview/rune_usdt.svg";
 import timeIcon from "@iso/assets/images/overview/time_icon.svg";
 import totalSupplyIcon from "@iso/assets/images/overview/total_supply.svg";
+import verticalTopIcon from "@iso/assets/images/overview/vertical-align-top.svg";
 import filterIcon from "@iso/assets/images/overview/filter.svg";
 import loadingIcon from "@iso/assets/images/overview/loading.png";
 import githubIcon from "@iso/assets/images/overview/github_link_icon.svg";
@@ -370,7 +371,7 @@ const GlobalData = ({ globalData, animateBlockCount, state }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={bondIcon} className="overview-item__icon" />
+        <img alt="#" src={verticalTopIcon} className="overview-item__icon" />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MAX EFFECTIVE BOND</div>
           <div className="overview-item__value-value">
