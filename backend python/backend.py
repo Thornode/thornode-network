@@ -69,6 +69,35 @@ def grabRewards(node):
 
     return jsonify(interim)
 
+@app.route('/thor/api/versions', methods=['GET'])
+@cross_origin()
+def grabVersion():
+    data = grabQuery('SELECT * FROM noderunner.thornode_monitor where status="Active"')
+
+    output = {}
+    for key in data:
+        if key["version"] not in output:
+            output[key["version"]] = 1
+        else:
+            output[key["version"]] += 1
+
+    return jsonify(output)
+
+@app.route('/thor/api/locations', methods=['GET'])
+@cross_origin()
+def grabLocation():
+    data = grabQuery('SELECT * FROM noderunner.thornode_monitor where status="Active" OR status="Standby"')
+
+    output = {}
+    for key in data:
+        if key["country"] != '':
+            if key["country"] not in output:
+                output[key["country"]] = 1
+            else:
+                output[key["country"]] += 1
+
+    return jsonify(output)
+
 def main():
     """
     main contains the main loop which simply spins every minuite and update the various DBs

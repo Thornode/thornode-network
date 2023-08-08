@@ -128,7 +128,9 @@ def gradDataAndSaveToDB():
             observe_chains=json.dumps(node['observe_chains']),
             preflight_status=json.dumps(node['preflight_status']),
             status=node['status'],
-            status_since=node['status_since'], bp_string=bond_providersString, version=node['version'],
+            status_since=node['status_since'],
+            bp_string=bond_providersString,
+            version=node['version'],
             node_address=node['node_address'])
         commitQuery(query)
 
@@ -154,11 +156,11 @@ def gradDataAndSaveToDB():
         query = "INSERT INTO noderunner.thornode_monitor (node_address, ip_address, location, isp, " \
                 "active_block_height, bond_providers, bond, current_award, slash_points,forced_to_leave, " \
                 "requested_to_leave, jail, bond_address, observe_chains, preflight_status, status, " \
-                "status_since, version) VALUES ('{node_address}', '{ip_address}','{city}','{isp}'," \
+                "status_since, version, country,country_code) VALUES ('{node_address}', '{ip_address}','{city}','{isp}'," \
                 "'{active_block_height}','{bond_providers}','{bond}','{current_award}','{slash_points}'," \
                 "'{forced_to_leave}','{requested_to_leave}', '{jail}','{bond_address}'," \
                 "'{observe_chains}','{preflight_status}','{status}','{status_since}'," \
-                "'{version}')".format(node_address=node['node_address'], ip_address=node['ip_address'],
+                "'{version}','{country}','{country_code}')".format(node_address=node['node_address'], ip_address=node['ip_address'],
                                       city=node['ip_data']['city'], isp=node['ip_data']['isp'],
                                       active_block_height=node['active_block_height'],
                                       bond_providers=json.dumps(node['bond_providers']), bond=int(node['total_bond']),
@@ -168,5 +170,5 @@ def gradDataAndSaveToDB():
                                       jail=json.dumps(node['jail']), bond_address='',
                                       observe_chains=json.dumps(node['observe_chains']),
                                       preflight_status=json.dumps(node['preflight_status']), status=node['status'],
-                                      status_since=node['status_since'], version=node['version'])
+                                      status_since=node['status_since'], version=node['version'],country=node['ip_data']['country'],country_code=node['ip_data']['countryCode'])
         commitQuery(query)
