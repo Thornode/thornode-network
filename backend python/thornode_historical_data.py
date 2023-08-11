@@ -6,6 +6,50 @@ import datetime
 from common import getDB, commitQuery, grabQuery
 
 
+def positionFiller(churn):
+    """
+    backPort fills in historical database for the churn height passed in
+
+    :param churn: height to grab data for
+    """
+    data = grabQuery(
+        "SELECT * FROM noderunner.thornode_monitor_historic WHERE churnHeight='{field}' AND status='Active' ORDER BY slash_points ASC".format(
+            field=churn))
+
+    itr = 1
+    for key in data:
+        query = "UPDATE noderunner.thornode_monitor_historic SET " \
+                "position = '{position}' " \
+                "WHERE (node_address = '{node_address}' AND churnHeight = '{height}');".format(
+            position=itr,
+            node_address=key['node_address'],
+            height=churn)
+        commitQuery(query)
+
+        itr+=1
+
+def fillMax(churn):
+    """
+    backPort fills in historical database for the churn height passed in
+
+    :param churn: height to grab data for
+    """
+    data = grabQuery(
+        "SELECT * FROM noderunner.thornode_monitor_historic WHERE churnHeight='{field}' ORDER BY slash_points ASC".format(
+            field=churn))
+
+    number = grabQuery(
+        "SELECT COUNT(*) FROM noderunner.thornode_monitor_historic WHERE churnHeight='{height}' AND status='Active'".format(
+            height=churn
+        ))[0]['COUNT(*)']
+
+    itr = 1
+    query = "UPDATE noderunner.thornode_monitor_historic SET " \
+            "maxNodes = '{maxNodes}' " \
+            "WHERE (churnHeight = '{height}');".format(
+        maxNodes=number,
+        height=churn)
+    commitQuery(query)
 
 def checkIfNewChurn():
     """
@@ -46,15 +90,21 @@ def checkIfNewChurn():
                             node['ip_data'] = {}
                             node['ip_data']['city'] = ""
                             node['ip_data']['isp'] = ""
+                            node['ip_data']['country'] = ""
+                            node['ip_data']['countryCode'] = ""
+
             else:
                 node['ip_data'] = {}
                 node['ip_data']['city'] = ipData[0]['location']
                 node['ip_data']['isp'] = ipData[0]['isp']
-
+                node['ip_data']['country'] = ipData[0]['country']
+                node['ip_data']['countryCode'] = ipData[0]['countryCode']
         else:
             node['ip_data'] = {}
             node['ip_data']['city'] = ""
             node['ip_data']['isp'] = ""
+            node['ip_data']['country'] = ""
+            node['ip_data']['countryCode'] = ""
 
         query = "INSERT INTO noderunner.thornode_monitor_historic (node_address, ip_address, location, isp, " \
                 "active_block_height, bond_providers, bond, current_award, slash_points,forced_to_leave, " \
@@ -74,4 +124,7 @@ def checkIfNewChurn():
                                       status_since=node['status_since'], version=node['version'], churnHeight=lastChurn)
 
         commitQuery(query)
+    positionFiller(lastChurn)
+    fillMax(lastChurn)
+
 
