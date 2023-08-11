@@ -1,7 +1,7 @@
 import time
 
 from common import grabQuery
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flask_cors import CORS, cross_origin
 from thormonitor_collect_data import gradDataAndSaveToDB
 from thormonitor_update_ips import updateIPs
@@ -202,6 +202,61 @@ def grabPositions(node):
         interim[key['churnHeight']]['max'] = key['maxNodes']
 
     return jsonify(interim)
+
+@app.route('/thor/api/grabChurns', methods=['GET'])
+@cross_origin()
+def grabChurns():
+    """Returns a list of past churns which are indexed by the API
+       ---
+       tags:
+         - Historical
+       responses:
+         200:
+           description: List of churn heights indexed
+       """
+    churns = grabQuery(
+        "SELECT DISTINCT churnHeight FROM noderunner.thornode_monitor_historic ORDER BY churnHeight ASC")
+
+    churnData = []
+
+    for key in churns:
+        churnData.append(key["churnHeight"])
+
+    return jsonify(churnData)
+
+@app.route('/thor/api/grabHistoricData=<churn>', methods=['GET'])
+@cross_origin()
+def grabHistoricData(churn):
+    """Returns a the data for all nodes on the network at the given chrun height
+       ---
+       tags:
+         - Historical
+       parameters:
+         - name: churn
+           in: path
+           type: int
+           required: true
+           default: 11867388
+           description: The indexed churn to grab data from
+       responses:
+         200:
+           description: List of churn heights indexed
+         404:
+           description: Churn height not indexed
+       """
+    entries = len(grabQuery("SELECT * FROM noderunner.thornode_monitor_historic where churnHeight='{field}'".format(
+        field=churn)))
+
+    if (entries == 0):
+        abort(404,'Churn height ' + str(churn) + ' not indexed')
+
+
+    data = grabQuery(
+        "SELECT * FROM noderunner.thornode_monitor_historic WHERE churnHeight='{field}'".format(
+            field=churn))
+
+    return jsonify(data)
+
 
 def main():
     """
