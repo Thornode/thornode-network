@@ -152,6 +152,8 @@ def gradDataAndSaveToDB():
             node['ip_data'] = {}
             node['ip_data']['city'] = ""
             node['ip_data']['isp'] = ""
+            node['ip_data']['country'] = ""
+            node['ip_data']['countryCode'] = ""
 
         query = "INSERT INTO noderunner.thornode_monitor (node_address, ip_address, location, isp, " \
                 "active_block_height, bond_providers, bond, current_award, slash_points,forced_to_leave, " \
