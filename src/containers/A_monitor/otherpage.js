@@ -8,6 +8,7 @@ import { Layout, Button, Input, Breadcrumb, Select } from "antd";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
 import "./styles.css";
+import CustomScatterChart from "./CustomScatterChart";
 import { Link } from "react-router-dom";
 import { PUBLIC_ROUTE } from "../../route.constants";
 import {
@@ -15,6 +16,7 @@ import {
   LeftOutlined,
   RightOutlined,
   HistoryOutlined,
+  DotChartOutlined,
 } from "@ant-design/icons";
 
 import heartBlank from "@iso/assets/images/heart-blank.png";
@@ -33,8 +35,8 @@ import imageChoopa from "@iso/assets/images/choopa.png";
 import imageChartercoms from "@iso/assets/images/chartercoms.png";
 import imageATandT from "@iso/assets/images/atandt.png";
 import imageZenlayer from "@iso/assets/images/zenlayer.png";
-import imageAljeel from "@iso/assets/images/Aljeel.png"
-import imageHostinger from "@iso/assets/images/Hostinger.png"
+import imageAljeel from "@iso/assets/images/Aljeel.png";
+import imageHostinger from "@iso/assets/images/Hostinger.png";
 
 import binance from "@iso/assets/images/binance.png";
 import eth from "@iso/assets/images/eth.png";
@@ -47,6 +49,7 @@ import thornode from "@iso/assets/images/thornode.svg";
 import avax from "@iso/assets/images/avax.png";
 
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
+import chartLineIcon from "@iso/assets/images/overview/chartLineIcon.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
 import lowTradingIcon from "@iso/assets/images/overview/24low_trading.svg";
 import bondIcon from "@iso/assets/images/overview/Bond_icon.svg";
@@ -304,7 +307,17 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
   );
 };
 
-const GlobalData = ({ globalData, animateBlockCount, state }) => {
+const GlobalData = ({
+  globalData,
+  animateBlockCount,
+  state,
+  handleClickTotalBond,
+  chartDataConfig,
+  totalBondOptions,
+  handlePopoverVisibility,
+  handleMaxEffectiveStake,
+  maxStakeOptions,
+}) => {
   let timeToDisplay = "";
   let msgTitle = "";
   if (globalData?.churnTry && globalData?.retiring === "false") {
@@ -370,18 +383,73 @@ const GlobalData = ({ globalData, animateBlockCount, state }) => {
           </div>
         </div>
       </div>
-      <div className="overview-item">
-        <img alt="#" src={verticalTopIcon} className="overview-item__icon" />
-        <div className="overview-item__value">
-          <div className="overview-item__value-title">MAX EFFECTIVE BOND</div>
-          <div className="overview-item__value-value">
-            ᚱ
-            {parseInt(
-              globalData.maxEffectiveStake / 100000000
-            ).toLocaleString()}
+      <Popover
+        content={
+          chartDataConfig?.datasets?.[0]?.data &&
+          chartDataConfig.datasets[0].data.length > 0 ? (
+            <CustomLineChart
+              key={JSON.stringify(chartDataConfig)}
+              data={chartDataConfig}
+              options={maxStakeOptions}
+            />
+          ) : (
+            <div>No data available</div>
+          )
+        }
+        title="Max Effective Stake Over Time"
+        trigger="click"
+        overlayClassName="my-custom-popover"
+        onVisibleChange={(visible) => handlePopoverVisibility(visible)}
+      >
+        <div
+          className="overview-item"
+          onClick={handleMaxEffectiveStake}
+          style={{ cursor: "pointer" }}
+        >
+          <img alt="#" src={verticalTopIcon} className="overview-item__icon" />
+          <div className="overview-item__value">
+            <div className="overview-item__value-title">MAX EFFECTIVE BOND</div>
+            <div className="overview-item__value-value">
+              ᚱ
+              {parseInt(
+                globalData.maxEffectiveStake / 100000000
+              ).toLocaleString()}
+            </div>
           </div>
         </div>
-      </div>
+      </Popover>
+      <Popover
+        content={
+          chartDataConfig?.datasets?.[0]?.data &&
+          chartDataConfig.datasets[0].data.length > 0 ? (
+            <CustomLineChart
+              key={JSON.stringify(chartDataConfig)}
+              data={chartDataConfig}
+              options={totalBondOptions}
+            />
+          ) : (
+            <div>No data available</div>
+          )
+        }
+        title="Total Bond Over Time"
+        trigger="click"
+        overlayClassName="my-custom-popover"
+        onVisibleChange={(visible) => handlePopoverVisibility(visible)}
+      >
+        <div
+          className="overview-item"
+          onClick={handleClickTotalBond}
+          style={{ cursor: "pointer" }}
+        >
+          <img alt="#" src={chartLineIcon} className="overview-item__icon" />
+          <div className="overview-item__value">
+            <div className="overview-item__value-title">
+              TOTAL BOND OVER TIME
+            </div>
+            <div className="overview-item__value-value">CLICK HERE</div>
+          </div>
+        </div>
+      </Popover>
     </>
   );
 };
@@ -563,6 +631,9 @@ const NodeTable = ({
   bondOptions,
   rewardsOptions,
   slashesOptions,
+  maxPositionOptions,
+  maxPositionChartDataConfig,
+  handleNodePosition,
   visibleColumns = { ...defaulColumns },
   sortBy = "",
   sortDirection = "",
@@ -641,7 +712,7 @@ const NodeTable = ({
         />
       </div>
       <div className="data-table-wrapper">
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div style={{ width: "100%" }}>
           <table
             style={{
               borderWidth: 1.1,
@@ -1032,8 +1103,8 @@ const NodeTable = ({
                     style={{
                       ...tdStyle,
                       textAlign: "center",
-                      minWidth: 195,
-                      maxWidth: 201,
+                      minWidth: 250,
+                      maxWidth: 300,
                     }}
                   >
                     <Popover
@@ -1054,6 +1125,32 @@ const NodeTable = ({
                         {`...${item.node_address.substring(
                           item.node_address.length - 4
                         )}`}
+                      </span>
+                    </Popover>
+                    <Popover
+                      content={
+                        maxPositionChartDataConfig?.datasets?.length > 0 ? (
+                          <CustomScatterChart
+                            key={JSON.stringify(maxPositionChartDataConfig)}
+                            data={maxPositionChartDataConfig}
+                            options={maxPositionOptions}
+                          />
+                        ) : (
+                          <div>No data available</div>
+                        )
+                      }
+                      title={`Max Position Over Time for `}
+                      trigger="click"
+                      overlayClassName="my-custom-popover"
+                      onVisibleChange={(visible) =>
+                        handlePopoverVisibility(visible)
+                      }
+                    >
+                      <span className="icon-wrapper">
+                        <DotChartOutlined
+                          style={{ stroke: "currentColor" }}
+                          onClick={() => handleNodePosition(item.node_address)}
+                        />
                       </span>
                     </Popover>
                     <Icons
@@ -1397,11 +1494,15 @@ export default class extends Component {
       visibleColumns: defaulColumns,
       nodesFilter: {},
       loading: true,
+      minX: null,
+      maxX: null,
     };
     this.clickSortHeader = this.clickSortHeader.bind(this);
     this.handleClickRewards = this.handleClickRewards.bind(this);
     this.handleClickSlashes = this.handleClickSlashes.bind(this);
     this.handleClickBond = this.handleClickBond.bind(this);
+    this.handleClickTotalBond = this.handleClickTotalBond.bind(this);
+    this.handleNodePosition = this.handleNodePosition.bind(this);
   }
 
   handlePopoverVisibility = (visible) => {
@@ -1730,6 +1831,38 @@ We use string sort function if value is one of the arrays else do second sort nu
     return this.state.myFavNodes.includes(address) ? heartFull : heartBlank;
   }
 
+  handleNodePosition = async (node_address) => {
+    this.setState({ isPopoverOpen: true });
+    const url = `https://api.liquify.com/thor/api/grabPosition=${node_address}`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const maxData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Number(y.max),
+        }));
+
+        const positionData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Number(y.position),
+        }));
+
+        const allXValues = [...maxData, ...positionData].map(
+          (dataPoint) => dataPoint.x
+        );
+        const minX = Math.min(...allXValues);
+        const maxX = Math.max(...allXValues);
+
+        this.setState({ maxData, positionData, minX, maxX });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
   handleClickSlashes = async (node_address) => {
     this.setState({ isPopoverOpen: true });
     const url = `https://api.liquify.com/thor/api/grabSlashes=${node_address}`;
@@ -1743,6 +1876,48 @@ We use string sort function if value is one of the arrays else do second sort nu
           x: Number(x),
           y: Number(y),
         }));
+        this.setState({ chartData });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
+  handleMaxEffectiveStake = async () => {
+    this.setState({ isPopoverOpen: true });
+    const url = `https://api.liquify.com/thor/api/maxEffectiveStake`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const chartData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Math.round(Number(y) / 100000000),
+        }));
+
+        this.setState({ chartData });
+      }
+    } catch (error) {
+      console.error(`Error fetching data from ${url}:`, error);
+    }
+  };
+
+  handleClickTotalBond = async () => {
+    this.setState({ isPopoverOpen: true });
+    const url = `https://api.liquify.com/thor/api/totalBond`;
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      if (!rawData || Object.keys(rawData).length === 0) {
+        this.setState({ chartData: null });
+      } else {
+        const chartData = Object.entries(rawData).map(([x, y]) => ({
+          x: Number(x),
+          y: Math.round(Number(y) / 100000000),
+        }));
+
         this.setState({ chartData });
       }
     } catch (error) {
@@ -1828,6 +2003,135 @@ We use string sort function if value is one of the arrays else do second sort nu
               tension: 0,
             },
           ],
+        }
+      : {};
+
+    const maxPositionChartDataConfig =
+      this.state.maxData && this.state.positionData
+        ? {
+            datasets: [
+              {
+                label: "Max",
+                data: this.state.maxData,
+                backgroundColor: "blue",
+                pointRadius: 5,
+              },
+              {
+                label: "Position",
+                data: this.state.positionData,
+                backgroundColor: "orange",
+                pointRadius: 5,
+              },
+            ],
+          }
+        : {};
+
+    const maxStakeOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                },
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Max Effective Stake (ᚱ)",
+                },
+              },
+            ],
+          },
+        }
+      : {};
+
+    const totalBondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                },
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Total Bond Amount (ᚱ)",
+                },
+              },
+            ],
+          },
+        }
+      : {};
+
+    const maxPositionOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                },
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: this.state.minX,
+                  max: this.state.maxX,
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                },
+              },
+            ],
+            yAxes: [
+              {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Position",
+                },
+                ticks: {
+                  min: 0,
+                  max: 100,
+                },
+              },
+            ],
+          },
         }
       : {};
 
@@ -1995,6 +2299,12 @@ We use string sort function if value is one of the arrays else do second sort nu
                     state={this.state}
                     globalData={this.state.globalData}
                     animateBlockCount={this.state.animateBlockCount}
+                    handleClickTotalBond={this.handleClickTotalBond}
+                    chartDataConfig={chartDataConfig}
+                    totalBondOptions={totalBondOptions}
+                    maxStakeOptions={maxStakeOptions}
+                    handlePopoverVisibility={this.handlePopoverVisibility}
+                    handleMaxEffectiveStake={this.handleMaxEffectiveStake}
                   />
                   <CoinGeckoData globalData={this.state.globalData} />
                 </div>
@@ -2035,6 +2345,9 @@ We use string sort function if value is one of the arrays else do second sort nu
                     rewardsOptions={rewardsOptions}
                     slashesOptions={slashesOptions}
                     handlePopoverVisibility={this.handlePopoverVisibility}
+                    handleNodePosition={this.handleNodePosition}
+                    maxPositionChartDataConfig={maxPositionChartDataConfig}
+                    maxPositionOptions={maxPositionOptions}
                   />
                 )}
                 {whitelistedNodes.length === 0 && (
