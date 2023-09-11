@@ -54,6 +54,7 @@ import dogecoin from "@iso/assets/images/dogecoin.png";
 import gaia from "@iso/assets/images/atom.png";
 import thornode from "@iso/assets/images/thornode.svg";
 import avax from "@iso/assets/images/avax.png";
+import bsc from '@iso/assets/images/bsc.png';
 
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
@@ -1341,6 +1342,40 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+
+                    <th
+                      className={getHeaderClassName("BSC")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
+                      onClick={() => clickSortHeader("BSC")}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          alt="#"
+                          src={bsc}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"BSC"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
+                    </th>
                   </>
                 )}
               </tr>
@@ -1691,6 +1726,11 @@ const NodeTable = ({
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
                       />
+                      <ChainTD
+                        chain={"BSC"}
+                        obchains={item.obchains}
+                        maxChainHeights={maxChainHeights}
+                      />
                     </>
                   )}
                 </tr>
@@ -1753,6 +1793,7 @@ const defaulColumns = {
   DOGE: true,
   GAIA: true,
   AVAX: true,
+  BSC: true,
 };
 export default class extends Component {
   constructor(props) {
@@ -2114,6 +2155,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       "DOGE",
       "GAIA",
       "AVAX",
+      "BSC",
     ].includes(item);
     const direction =
       this.state.sortBy !== item

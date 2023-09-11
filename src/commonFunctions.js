@@ -119,11 +119,12 @@ export const getData = async () => {
   const maxBNBHeight = reduceDown(data2, 'BNB')
   const maxGAIAHeight = reduceDown(data2, 'GAIA')
   const maxAVAXHeight = reduceDown(data2, 'AVAX')
+  const maxBSCHeight = reduceDown(data2, 'BSC')
 
   const totalBondedValue = (val.data.map(item => item.bond).reduce((prev, next) => prev + next))/100000000;
   globalData.totalBondedValue = totalBondedValue;
 
-  return {data: val.data, globalData: globalData, maxChainHeights: {BTC: maxBTCHeight, DOGE: maxDogeHeight, ETH: maxEthHeight, LTC: maxLTCHeight, GAIA: maxGAIAHeight, BCH: maxBCHHeight, BNB: maxBNBHeight, AVAX: maxAVAXHeight}}
+  return {data: val.data, globalData: globalData, maxChainHeights: {BTC: maxBTCHeight, DOGE: maxDogeHeight, ETH: maxEthHeight, LTC: maxLTCHeight, GAIA: maxGAIAHeight, BCH: maxBCHHeight, BNB: maxBNBHeight, AVAX: maxAVAXHeight, BSC: maxBSCHeight}}
 }
 
 export const refreshData = async () => {
