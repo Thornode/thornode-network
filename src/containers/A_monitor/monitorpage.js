@@ -1435,7 +1435,9 @@ const NodeTable = ({
                           <div>No data available</div>
                         )
                       }
-                      title={`Max Position Over Time for `}
+                      title={`Performance Over Time for ${item.node_address.slice(
+                        -4
+                      )}`}
                       trigger="click"
                       overlayClassName="my-custom-popover"
                       onVisibleChange={(visible) =>
