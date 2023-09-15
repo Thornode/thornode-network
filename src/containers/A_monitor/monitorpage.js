@@ -24,7 +24,8 @@ import {
   HistoryOutlined,
 } from "@ant-design/icons";
 //import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
-
+import { useTheme } from "../../ThemeContext.js";
+import ThemeToggleButton from "./ThemeToggleButton.js";
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartFull from "@iso/assets/images/heart-full.png";
 
@@ -80,6 +81,7 @@ import activeIcon from "@iso/assets/images/overview/active_icon.svg";
 import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
 
 import VisibleColumn from "@iso/components/VisibleColumn/VisibleColumn";
+import { ThemeContext } from "styled-components";
 
 const leaveIcon = (
   <svg
@@ -2815,6 +2817,9 @@ We use string sort function if value is one of the arrays else do second sort nu
               >
                 <img src={threeDotsIcon} />
               </Popover>
+            </div>
+            <div className="active-node">
+              <ThemeToggleButton />
             </div>
           </div>
         </Header>

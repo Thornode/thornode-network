@@ -1,51 +1,91 @@
+:root {
+  /* Light Theme */
+  --bg-color: white;
+  --table-body-bg: linear-gradient(90.11deg, #ffffff 1.08%, #eef0fa 100%);
+  --page-bg-color: white;
+  --text-color: black;
+  --icon-color: #7e7e7e;
+  --link-color: #1b34a0;
+  --icon-hover-color: #1c39bb;
+  --border-color: rgba(0, 0, 0, 0.07);
+  --animation-bg-color1: white;
+  --animation-bg-color2: rgba(230, 255, 117, 0.5);
+  --table-header-hover-color: #004d59;
+  --table-header-color: #9599a0;
+  --overview-border-color: #1c39bb;
+  --drop-shadow-color: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-color: #0c0d10;
+  --table-body-bg: linear-gradient(90.11deg, #121212 1.08%, #2a2a2a 100%);
+  --page-bg-color: #121526;
+  --text-color: white;
+  --icon-color: white;
+  --link-color: #3352db;
+  --icon-hover-color: #4e90ff;
+  --border-color: rgba(255, 255, 255, 0.07);
+  --animation-bg-color1: black;
+  --animation-bg-color2: rgba(70, 95, 7, 0.5);
+  --table-header-hover-color: #00b5c4;
+  --table-header-color: #15191f;
+  --overview-border-color: #4e90ff;
+  --drop-shadow-color: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.5));
+}
+
 #root {
   height: 100%;
 }
 .ant-layout {
   min-height: 100%;
   min-width: 1920px;
+  background-color: var(--bg-page-color) !important;
 }
+
 body {
   font-family: monospace !important;
   font-weight: 200;
+  background-color: var(--page-bg-color) !important;
+  color: var(--text-color);
 }
 
 .icons-wrapper svg {
-  color: #7e7e7e;
+  color: var(--icon-color);
 }
 .icons-wrapper svg:hover {
-  color: #1c39bb;
+  color: var(--icon-hover-color);
 }
 
 td {
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(0, 0, 0, 0.07);
+  border-color: var(--border-color);
 }
 
 .animateGrow {
   width: max-content;
-  background-color: white;
+  background-color: var(--animation-bg-color1);
   animation-name: animateBlockHeight;
   animation-duration: 1s;
 }
 @keyframes animateBlockHeight {
   0% {
-    background-color: white;
+    background-color: var(--animation-bg-color1);
   }
   35% {
-    background-color: rgba(230, 255, 117, 0.5);
+    background-color: var(--animation-bg-color2);
   }
   65% {
-    background-color: rgba(230, 255, 117, 0.5);
+    background-color: var(--animation-bg-color2);
   }
   100% {
-    background-color: white;
+    background-color: var(--animation-bg-color1);
   }
 }
 
 .nodeaddress:hover {
-  color: #1c39bb;
+  color: var(--icon-hover-color);
 }
 
 .tableHeader span {
@@ -53,7 +93,7 @@ td {
 }
 
 .tableHeader:hover {
-  color: #004d59;
+  color: var(--table-header-hover-color);
 }
 
 .tableHeader span .sort-icon {
@@ -69,18 +109,23 @@ td {
 }
 
 .overview-list-wrapper {
-  border-bottom: 1px solid #1c39bb;
+  border-bottom: 1px solid var(--overview-border-color);
   padding-bottom: 28px;
 }
 .overview-list {
   column-count: 6;
-  background: linear-gradient(269.82deg, #ffffff -20.26%, #ffffff 99.82%);
+  background: linear-gradient(
+    269.82deg,
+    var(--bg-color) -20.26%,
+    var(--bg-color) 99.82%
+  );
   opacity: 0.8;
   border-radius: 10px;
   padding: 36px 40px 10px;
-  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
+  filter: var(--drop-shadow-color);
   max-width: 1880px;
   margin: auto;
+  margin-top: 30px;
 }
 
 .overview-item {
@@ -91,6 +136,7 @@ td {
 
 .overview-item__value {
   padding-left: 22px;
+  color: var(--link-color);
 }
 
 .overview-item__value-title {
@@ -98,7 +144,7 @@ td {
   font-size: 12px;
   line-height: 15px;
   letter-spacing: -0.015em;
-  color: #182233;
+  color: var(--text-color);
 }
 
 .overview-item__value-value {
@@ -107,7 +153,7 @@ td {
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.015em;
-  color: #1b34a0;
+  color: var(--link-color);
 }
 
 iframe {
@@ -131,7 +177,7 @@ iframe {
 
 .paging-wrapper {
   padding: 25px 0;
-  color: #9ca3af;
+  background-color: var(--table-header-color);
 }
 
 .page-numbers {
@@ -186,6 +232,7 @@ iframe {
   display: flex;
   flex-direction: column;
   padding: 17px 0 0 0 !important;
+  background-color: var(--bg-page-color) !important;
 }
 
 .loading {
@@ -214,7 +261,7 @@ iframe {
 }
 
 .ant-layout-footer {
-  background-color: #fff;
+  background-color: var(--bg-page-color);
   height: 110px;
   display: flex;
   align-items: center;
@@ -236,7 +283,7 @@ iframe {
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 20px;
-  color: #182233;
+  color: var(--text-color);
 }
 .logo-wrapper span {
   margin-right: 12px;
@@ -267,8 +314,8 @@ iframe {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.01em;
-  color: #182233;
-  background: linear-gradient(90.11deg, #ffffff 1.08%, #eef0fa 100%);
+  color: var(--text-color);
+  background: var(--table-body-bg);
 }
 
 table {
@@ -280,6 +327,10 @@ td,
 th {
   border: none;
   margin: 0;
+}
+
+th {
+  background-color: var(--table-header-color) !important;
 }
 
 tr {
@@ -539,7 +590,7 @@ tr:first-child {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.015em;
-  color: #182233;
+  color: var(--text-color);
 }
 
 .ant-breadcrumb .current {
@@ -589,14 +640,16 @@ tr:first-child {
 .ant-popover-inner {
   border-radius: 6px;
   text-align: center;
+  background-color: var(--bg-color);
 }
+
 .ant-popover-inner .ant-popover-title {
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   letter-spacing: -0.01em;
-  color: #7e7e7e;
+  color: var(--text-color) !important;
   padding: 8px 16px;
   border-bottom: 0.2px solid #9ca3af;
 }
@@ -606,7 +659,7 @@ tr:first-child {
   font-size: 10px;
   line-height: 12px;
   letter-spacing: -0.01em;
-  color: #7e7e7e;
+  color: var(--text-color) !important;
 }
 
 .nodeaddress {
@@ -617,6 +670,7 @@ tr:first-child {
 .item-to-show {
   padding: 20px 0;
 }
+
 .item-to-show .ant-select-selector {
   border-radius: 6px !important;
 }
@@ -626,7 +680,7 @@ tr:first-child {
   font-size: 12px;
   line-height: 15px;
   letter-spacing: -0.015em;
-  color: #182233;
+  color: var(--text-color);
   margin-right: 20px;
 }
 
@@ -661,14 +715,35 @@ tr:first-child {
   font-size: 18px;
   width: 200px;
   text-align: center;
+  color: var(--text-color);
 }
 
 .dollar-popover p {
   font-size: 12px;
   text-align: center;
+  color: var(--text-color);
 }
 
 .dollar-popover .ant-popover-inner-content {
   display: block;
   margin: auto;
+  color: var(--text-color);
+}
+
+.ant-input-affix-wrapper {
+  background-color: var(--bg-color) !important;
+}
+
+.search-input {
+  background-color: var(--bg-color) !important;
+}
+
+.ant-input {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+button.ant-btn.ant-btn-secondary.button-filter {
+  background: var(--bg-color) !important;
+  border-color: var(--bg-color) !important;
 }

@@ -18,6 +18,9 @@ import {
   HistoryOutlined,
   DotChartOutlined,
 } from "@ant-design/icons";
+import { useTheme } from "../../ThemeContext.js";
+import ThemeToggleButton from "./ThemeToggleButton.js";
+import { ThemeContext } from "styled-components";
 
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartFull from "@iso/assets/images/heart-full.png";
@@ -2771,6 +2774,9 @@ We use string sort function if value is one of the arrays else do second sort nu
               onClick={() => this.onNodesFilter("orthers")}
             >
               <img src={threeDotsIcon} />
+            </div>
+            <div className="active-node">
+              <ThemeToggleButton />
             </div>
           </div>
         </Header>
