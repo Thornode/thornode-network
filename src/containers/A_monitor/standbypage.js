@@ -7,6 +7,8 @@ import { Layout, Button, Input, Breadcrumb, Select } from "antd";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
+import { Link } from "react-router-dom";
+import { PUBLIC_ROUTE } from "../../route.constants";
 import "./styles.css";
 import {
   SearchOutlined,
@@ -56,6 +58,7 @@ import loadingIcon from "@iso/assets/images/overview/loading.png";
 import githubIcon from "@iso/assets/images/overview/github_link_icon.svg";
 import twitterIcon from "@iso/assets/images/overview/twitter_link_icon.svg";
 import liquifyLogo from "@iso/assets/images/overview/liquify_logo.svg";
+import jailIcon from "@iso/assets/images/overview/jail_icon.svg";
 import threeDotsIcon from "@iso/assets/images/overview/dots_three_circle.svg";
 import powerIcon from "@iso/assets/images/overview/power.svg";
 import chartLineIcon from "@iso/assets/images/overview/chartLineIcon.svg";
@@ -346,16 +349,41 @@ const GlobalData = ({
         <img alt="#" src={bondIcon} className="overview-item__icon" />
         <div className="overview-item__value">
           <div className="overview-item__value-title">TOTAL BONDED VALUE</div>
-          <div className="overview-item__value-value">
-            ᚱ
-            {state.activeNodes.length > 0
-              ? parseInt(
-                  state.activeNodes
-                    .map((item) => item.bond)
-                    .reduce((prev, next) => prev + next) / 100000000
-                ).toLocaleString()
-              : "0"}
-          </div>
+          <Popover
+            content={
+              <div>
+                <p>
+                  $
+                  {(
+                    (state.activeNodes.length > 0
+                      ? parseInt(
+                          state.activeNodes
+                            .map((item) => item.bond)
+                            .reduce((prev, next) => prev + next) / 100000000
+                        )
+                      : 0) * globalData?.coingecko?.current_price
+                  ).toLocaleString()}
+                </p>
+              </div>
+            }
+            title={"Total Bonded Value in Dollars"}
+            trigger="hover"
+            overlayClassName="dollar-popover"
+          >
+            <div
+              className="overview-item__value-value"
+              style={{ cursor: "pointer" }}
+            >
+              ᚱ
+              {state.activeNodes.length > 0
+                ? parseInt(
+                    state.activeNodes
+                      .map((item) => item.bond)
+                      .reduce((prev, next) => prev + next) / 100000000
+                  ).toLocaleString()
+                : "0"}
+            </div>
+          </Popover>
         </div>
       </div>
       <div className="overview-item">
@@ -378,38 +406,61 @@ const GlobalData = ({
       </div>
       <Popover
         content={
-          chartDataConfig?.datasets?.[0]?.data &&
-          chartDataConfig.datasets[0].data.length > 0 ? (
-            <CustomLineChart
-              key={JSON.stringify(chartDataConfig)}
-              data={chartDataConfig}
-              options={maxStakeOptions}
-            />
-          ) : (
-            <div>No data available</div>
-          )
-        }
-        title="Max Effective Stake Over Time"
-        trigger="click"
-        overlayClassName="my-custom-popover"
-        onVisibleChange={(visible) => handlePopoverVisibility(visible)}
-      >
-        <div
-          className="overview-item"
-          onClick={handleMaxEffectiveStake}
-          style={{ cursor: "pointer" }}
-        >
-          <img alt="#" src={verticalTopIcon} className="overview-item__icon" />
-          <div className="overview-item__value">
-            <div className="overview-item__value-title">MAX EFFECTIVE BOND</div>
-            <div className="overview-item__value-value">
-              ᚱ
-              {parseInt(
-                globalData.maxEffectiveStake / 100000000
+          <div>
+            <p>
+              $
+              {(
+                parseInt(globalData.maxEffectiveStake / 100000000) *
+                globalData?.coingecko?.current_price
               ).toLocaleString()}
+            </p>
+          </div>
+        }
+        title={"Max Effective Bond in Dollars"}
+        trigger="hover"
+        overlayClassName="dollar-popover"
+      >
+        <Popover
+          content={
+            chartDataConfig?.datasets?.[0]?.data &&
+            chartDataConfig.datasets[0].data.length > 0 ? (
+              <CustomLineChart
+                key={JSON.stringify(chartDataConfig)}
+                data={chartDataConfig}
+                options={maxStakeOptions}
+              />
+            ) : (
+              <div>No data available</div>
+            )
+          }
+          title="Max Effective Stake Over Time"
+          trigger="click"
+          overlayClassName="my-custom-popover"
+          onVisibleChange={(visible) => handlePopoverVisibility(visible)}
+        >
+          <div
+            className="overview-item"
+            onClick={handleMaxEffectiveStake}
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              alt="#"
+              src={verticalTopIcon}
+              className="overview-item__icon"
+            />
+            <div className="overview-item__value">
+              <div className="overview-item__value-title">
+                MAX EFFECTIVE BOND
+              </div>
+              <div className="overview-item__value-value">
+                <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
+                {parseInt(
+                  globalData.maxEffectiveStake / 100000000
+                ).toLocaleString()}
+              </div>
             </div>
           </div>
-        </div>
+        </Popover>
       </Popover>
       <Popover
         content={
@@ -611,6 +662,7 @@ const BondProviderPopOver = ({ data }) => {
 const NodeTable = ({
   handlePopoverVisibility,
   nodeData,
+  globalData,
   clickSortHeader,
   handleClickBond,
   handleClickRewards,
@@ -940,6 +992,27 @@ const NodeTable = ({
                   </span>
                 </th>
                 <th
+                  className={getHeaderClassName("jailed")}
+                  style={{ ...headerStyle, textAlign: "center" }}
+                  onClick={() => clickSortHeader("jailed")}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "5px" }}>Jailed</span>
+                    <SortIcon
+                      handleClickBond
+                      column={"jailed"}
+                      sortBy={sortBy}
+                      sortDirection={sortDirection}
+                    />
+                  </div>
+                </th>
+                <th
                   className={getHeaderClassName("rpc")}
                   style={{ ...headerStyle, textAlign: "center" }}
                 >
@@ -1132,7 +1205,9 @@ const NodeTable = ({
                           <div>No data available</div>
                         )
                       }
-                      title={`Max Position Over Time for `}
+                      title={`Performance Over Time for ${item.node_address.slice(
+                        -4
+                      )}`}
                       trigger="click"
                       overlayClassName="my-custom-popover"
                       onVisibleChange={(visible) =>
@@ -1189,38 +1264,57 @@ const NodeTable = ({
                   >
                     <Popover
                       content={
-                        chartDataConfig?.datasets?.[0]?.data &&
-                        chartDataConfig.datasets[0].data.length > 0 ? (
-                          <CustomLineChart
-                            key={JSON.stringify(chartDataConfig)}
-                            data={chartDataConfig}
-                            options={bondOptions}
-                          />
-                        ) : (
-                          <div>No data available</div>
-                        )
+                        <div>
+                          <p>
+                            $
+                            {(
+                              parseInt((item.bond / 100000000).toFixed()) *
+                              globalData?.coingecko?.current_price
+                            ).toLocaleString()}
+                          </p>
+                        </div>
                       }
-                      title={`Bond Value Over Time for ${item.node_address.slice(
+                      title={`Bond Value in Dollars for ${item.node_address.slice(
                         -4
                       )}`}
-                      trigger="click"
-                      overlayClassName="my-custom-popover"
-                      onVisibleChange={(visible) =>
-                        handlePopoverVisibility(visible)
-                      }
+                      trigger="hover"
+                      overlayClassName="dollar-popover"
                     >
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          color: "#1890ff",
-                          cursor: "pointer",
-                        }}
+                      <Popover
+                        content={
+                          chartDataConfig?.datasets?.[0]?.data &&
+                          chartDataConfig.datasets[0].data.length > 0 ? (
+                            <CustomLineChart
+                              key={JSON.stringify(chartDataConfig)}
+                              data={chartDataConfig}
+                              options={bondOptions}
+                            />
+                          ) : (
+                            <div>No data available</div>
+                          )
+                        }
+                        title={`Bond Value Over Time for ${item.node_address.slice(
+                          -4
+                        )}`}
+                        trigger="click"
+                        overlayClassName="my-custom-popover"
+                        onVisibleChange={(visible) =>
+                          handlePopoverVisibility(visible)
+                        }
                       >
-                        <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
-                        {parseInt(
-                          (item.bond / 100000000).toFixed()
-                        ).toLocaleString()}
-                      </span>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            color: "#1890ff",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
+                          {parseInt(
+                            (item.bond / 100000000).toFixed()
+                          ).toLocaleString()}
+                        </span>
+                      </Popover>
                     </Popover>
                   </td>
                   <td
@@ -1249,38 +1343,58 @@ const NodeTable = ({
                   >
                     <Popover
                       content={
-                        chartDataConfig?.datasets?.[0]?.data &&
-                        chartDataConfig.datasets[0].data.length > 0 ? (
-                          <CustomLineChart
-                            key={JSON.stringify(chartDataConfig)}
-                            data={chartDataConfig}
-                            options={rewardsOptions}
-                          />
-                        ) : (
-                          <div>No data available</div>
-                        )
+                        <div>
+                          <p>
+                            $
+                            {(
+                              parseInt(
+                                (item.current_award / 100000000).toFixed()
+                              ) * globalData?.coingecko?.current_price
+                            ).toLocaleString()}
+                          </p>
+                        </div>
                       }
-                      title={`Rewards Over Time for ${item.node_address.slice(
+                      title={`Rewards in Dollars for ${item.node_address.slice(
                         -4
                       )}`}
-                      trigger="click"
-                      overlayClassName="my-custom-popover"
-                      onVisibleChange={(visible) =>
-                        handlePopoverVisibility(visible)
-                      }
+                      trigger="hover"
+                      overlayClassName="dollar-popover"
                     >
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          color: "#1890ff",
-                          cursor: "pointer",
-                        }}
+                      <Popover
+                        content={
+                          chartDataConfig?.datasets?.[0]?.data &&
+                          chartDataConfig.datasets[0].data.length > 0 ? (
+                            <CustomLineChart
+                              key={JSON.stringify(chartDataConfig)}
+                              data={chartDataConfig}
+                              options={rewardsOptions}
+                            />
+                          ) : (
+                            <div>No data available</div>
+                          )
+                        }
+                        title={`Rewards Over Time for ${item.node_address.slice(
+                          -4
+                        )}`}
+                        trigger="click"
+                        overlayClassName="my-custom-popover"
+                        onVisibleChange={(visible) =>
+                          handlePopoverVisibility(visible)
+                        }
                       >
-                        <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
-                        {parseInt(
-                          (item.current_award / 100000000).toFixed()
-                        ).toLocaleString()}
-                      </span>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            color: "#1890ff",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <HistoryOutlined style={{ marginRight: 4 }} />ᚱ
+                          {parseInt(
+                            (item.current_award / 100000000).toFixed()
+                          ).toLocaleString()}
+                        </span>
+                      </Popover>
                     </Popover>
                   </td>
                   <td
@@ -1345,6 +1459,35 @@ const NodeTable = ({
                     {item.forced_to_leave === 1 || item.requested_to_leave === 1
                       ? "yes"
                       : "-"}
+                  </td>
+                  <td style={{ ...tdStyle, textAlign: "center" }}>
+                    {item.is_jailed ? (
+                      <Popover
+                        content={
+                          <div>
+                            <p>Release Height: {item.jail.release_height}</p>
+                            <p>Reason: {item.jail.reason}</p>
+                          </div>
+                        }
+                        title={"Jailed Information"}
+                        trigger="hover"
+                      >
+                        <span style={{ cursor: "pointer" }}>
+                          <img
+                            src={jailIcon}
+                            style={{
+                              width: 20,
+                              height: 20,
+                              display: "block",
+                              marginLeft: "15px",
+                            }}
+                            alt="Jailed"
+                          />
+                        </span>
+                      </Popover>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td
                     className={getCellClassName("rpc")}
@@ -1462,6 +1605,7 @@ const defaulColumns = {
   providers: true,
   rewards: true,
   apy: true,
+  jailed: true,
   slashes: true,
   score: true,
   version: true,
@@ -1773,6 +1917,15 @@ We use string sort function if value is one of the arrays else do second sort nu
       newData = data.sort(
         (a, b) => a[toSortBy].providers.length - b[toSortBy].providers.length
       );
+    } else if (toSortBy === "jailed") {
+      newData = data.sort((a, b) => {
+        const valA = a.is_jailed;
+        const valB = b.is_jailed;
+        if (valA === valB) {
+          return a["node_address"].localeCompare(b["node_address"]);
+        }
+        return valA > valB ? 1 : -1;
+      });
     } else if (worst_perform === true) {
       //This is for when we are sorting for action of worst performance as we want to exclude any with age under 3 days
       const ageCutOffDays = 3;
@@ -2233,12 +2386,17 @@ We use string sort function if value is one of the arrays else do second sort nu
           }}
         >
           <div className="header-left">
-            <img
-              alt="#"
-              src={thornode}
-              style={{ width: 55, height: 55, margin: "auto 22px auto 0" }}
-            />
-            <span>Thornode Monitor</span>
+            <Link
+              to={PUBLIC_ROUTE.LANDING}
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <img
+                alt="#"
+                src={thornode}
+                style={{ width: 55, height: 55, margin: "auto 22px auto 0" }}
+              />
+              <span style={{ color: "white" }}>Thornode Monitor</span>
+            </Link>
           </div>
           <div className="header-right">
             <div
@@ -2321,6 +2479,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                     whichHeart={this.whichHeart.bind(this)}
                     addToFav={this.addToFav.bind(this)}
                     nodeData={standByNodes}
+                    globalData={this.state.globalData}
                     clickSortHeader={this.clickSortHeader.bind(this)}
                     handleClickBond={this.handleClickBond}
                     handleClickRewards={this.handleClickRewards}
@@ -2368,7 +2527,9 @@ We use string sort function if value is one of the arrays else do second sort nu
           </a>
           <div className="logo-wrapper">
             <span>Built by:</span>
-            <img alt="#" src={liquifyLogo} className="overview-item__icon" />
+            <a href="https://liquify.io" target="_blank">
+              <img alt="#" src={liquifyLogo} className="overview-item__icon" />
+            </a>
           </div>
         </Footer>
       </Layout>

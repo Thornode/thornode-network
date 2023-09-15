@@ -1,5 +1,5 @@
-import styled, { css, keyframes } from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled, { css, keyframes } from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 const addAnimation = keyframes`
   0% {
     transform: scale(1) rotate(0deg);
@@ -44,9 +44,9 @@ const FavoriteWrapper = styled.button`
     height: 20px;
     ${RemoveAnimation}
     path {
-      fill: ${themeGet('color.5', 'rgba(0, 0, 0, 0.25)')};
-      stroke: ${themeGet('color.1', '#ffffff')};
-      stroke-width: 2px;
+      fill: ${themeGet("color.5", "rgba(0, 0, 0, 0.25)")};
+      stroke: ${themeGet("color.1", "#ffffff")};
+      strokewidth: 2px;
       transition: fill 1s ease;
     }
   }
@@ -55,7 +55,7 @@ const FavoriteWrapper = styled.button`
     svg {
       ${AddAnimation};
       path {
-        fill: ${themeGet('color.4', '#FC5C63')};
+        fill: ${themeGet("color.4", "#FC5C63")};
       }
     }
   }

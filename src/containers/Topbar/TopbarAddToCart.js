@@ -1,29 +1,24 @@
-import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import IntlMessages from '@iso/components/utility/intlMessages';
-import Scrollbar from '@iso/components/utility/customScrollBar';
-import Popover from '@iso/components/uielements/popover';
-import SingleCart from '@iso/components/Cart/SingleCartModal';
-import ecommerceAction from '@iso/redux/ecommerce/actions';
-import TopbarDropdownWrapper from './TopbarDropdown.styles';
+import React from "react";
+import { Link, useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import IntlMessages from "@iso/components/utility/intlMessages";
+import Scrollbar from "@iso/components/utility/customScrollBar";
+import Popover from "@iso/components/uielements/popover";
+import SingleCart from "@iso/components/Cart/SingleCartModal";
+import ecommerceAction from "@iso/redux/ecommerce/actions";
+import TopbarDropdownWrapper from "./TopbarDropdown.styles";
 
-const {
-  initData,
-  changeViewTopbarCart,
-  changeProductQuantity,
-} = ecommerceAction;
+const { initData, changeViewTopbarCart, changeProductQuantity } =
+  ecommerceAction;
 let totalPrice;
 export default function TopbarAddtoCart() {
   let { url } = useRouteMatch();
   const dispatch = useDispatch();
-  const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
-  const {
-    productQuantity,
-    products,
-    loadingInitData,
-    viewTopbarCart,
-  } = useSelector(state => state.Ecommerce);
+  const customizedTheme = useSelector(
+    (state) => state.ThemeSwitcher.topbarTheme
+  );
+  const { productQuantity, products, loadingInitData, viewTopbarCart } =
+    useSelector((state) => state.Ecommerce);
 
   function hide() {
     dispatch(changeViewTopbarCart(false));
@@ -46,7 +41,7 @@ export default function TopbarAddtoCart() {
         </div>
       );
     }
-    return productQuantity.map(product => {
+    return productQuantity.map((product) => {
       totalPrice += product.quantity * products[product.objectID].price;
       return (
         <SingleCart
@@ -61,7 +56,7 @@ export default function TopbarAddtoCart() {
   }
   function changeQuantity(objectID, quantity) {
     const newProductQuantity = [];
-    productQuantity.forEach(product => {
+    productQuantity.forEach((product) => {
       if (product.objectID !== objectID) {
         newProductQuantity.push(product);
       } else {
@@ -75,7 +70,7 @@ export default function TopbarAddtoCart() {
   }
   function cancelQuantity(objectID) {
     const newProductQuantity = [];
-    productQuantity.forEach(product => {
+    productQuantity.forEach((product) => {
       if (product.objectID !== objectID) {
         newProductQuantity.push(product);
       }
@@ -99,7 +94,7 @@ export default function TopbarAddtoCart() {
         </Link>
 
         <h3>
-          <IntlMessages id="topbar.totalPrice" />:{' '}
+          <IntlMessages id="topbar.totalPrice" />:{" "}
           <span>${totalPrice.toFixed(2)}</span>
         </h3>
       </div>
@@ -119,7 +114,7 @@ export default function TopbarAddtoCart() {
           style={{ color: customizedTheme.textColor }}
         />
         {productQuantity.length === 0 ? (
-          ''
+          ""
         ) : (
           <span>{productQuantity.length}</span>
         )}

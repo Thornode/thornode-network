@@ -243,6 +243,8 @@ iframe {
 }
 
 .data-table-wrapper {
+  display: flex;
+  flex-direction: column;
   box-shadow: 0px 4px 10px rgb(0 0 0 / 10%);
   position: relative;
   z-index: 1;
@@ -266,6 +268,7 @@ iframe {
   line-height: 17px;
   letter-spacing: -0.01em;
   color: #182233;
+  background: linear-gradient(90.11deg, #ffffff 1.08%, #eef0fa 100%);
 }
 
 table {
@@ -640,4 +643,32 @@ tr:first-child {
   height: 13px;
   padding-top: 5px;
   margin-right: 10px;
+}
+
+.custom-scatter-chart .chartjs-render-monitor {
+  width: 968px !important;
+  height: 484px !important;
+  display: block;
+}
+
+.custom-line-chart .chartjs-render-monitor {
+  width: 968px !important;
+  height: 484px !important;
+  display: block;
+}
+
+.dollar-popover {
+  font-size: 18px;
+  width: 200px;
+  text-align: center;
+}
+
+.dollar-popover p {
+  font-size: 12px;
+  text-align: center;
+}
+
+.dollar-popover .ant-popover-inner-content {
+  display: block;
+  margin: auto;
 }

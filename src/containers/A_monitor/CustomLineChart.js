@@ -55,7 +55,11 @@ class CustomLineChart extends Component {
   }
 
   render() {
-    return <canvas ref={this.chartRef} />;
+    return (
+      <div className="custom-line-chart">
+        <canvas ref={this.chartRef} />
+      </div>
+    );
   }
 }
 

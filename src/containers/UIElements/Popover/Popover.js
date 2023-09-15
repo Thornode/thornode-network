@@ -1,13 +1,13 @@
-import React from 'react';
-import { Row, Col, Button } from 'antd';
-import Popover from '@iso/components/uielements/popover';
-import PageHeader from '@iso/components/utility/pageHeader';
-import Box from '@iso/components/utility/box';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper';
-import ContentHolder from '@iso/components/utility/contentHolder';
-import IntlMessages from '@iso/components/utility/intlMessages';
-import basicStyle from '@iso/assets/styles/constants';
-import PopoverWrapper from './Popover.styles';
+import React from "react";
+import { Row, Col, Button } from "antd";
+import Popover from "@iso/components/uielements/popover";
+import PageHeader from "@iso/components/utility/pageHeader";
+import Box from "@iso/components/utility/box";
+import LayoutWrapper from "@iso/components/utility/layoutWrapper";
+import ContentHolder from "@iso/components/utility/contentHolder";
+import IntlMessages from "@iso/components/utility/intlMessages";
+import basicStyle from "@iso/assets/styles/constants";
+import PopoverWrapper from "./Popover.styles";
 
 const content = (
   <PopoverWrapper>
