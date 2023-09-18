@@ -451,7 +451,7 @@ tr:first-child {
 }
 .filter-modal .ant-modal-content {
   width: 600px;
-  background: #ffffff;
+  background: var(--bg-color) !important;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   overflow: hidden;
@@ -459,13 +459,15 @@ tr:first-child {
 }
 .filter-modal .ant-modal-header {
   border: none;
+  background-color: var(--bg-color);
 }
 .filter-modal .ant-modal-title {
   font-weight: 700;
   font-size: 25px;
   line-height: 30px;
   letter-spacing: -0.01em;
-  color: #182233;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   text-align: center;
 }
 .filter-modal .ant-modal-body {
@@ -500,7 +502,7 @@ tr:first-child {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.01em;
-  color: #182233;
+  color: var(--text-color);
   margin-bottom: 24px;
 }
 .filter-modal .ant-switch {
@@ -547,7 +549,7 @@ tr:first-child {
 
 .pie-modal .ant-modal-content {
   width: 800px;
-  background: #ffffff;
+  background: var(--bg-color);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   overflow: hidden;
@@ -555,13 +557,14 @@ tr:first-child {
 }
 .pie-modal .ant-modal-header {
   border: none;
+  background-color: var(--bg-color);
 }
 .pie-modal .ant-modal-title {
   font-weight: 700;
   font-size: 25px;
   line-height: 30px;
   letter-spacing: -0.01em;
-  color: #182233;
+  color: var(--text-color);
   text-align: center;
 }
 .pie-modal .ant-modal-body {

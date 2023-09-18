@@ -25,12 +25,15 @@ import {
 } from "@ant-design/icons";
 //import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
 import { useTheme } from "../../ThemeContext.js";
+import { ThemeContext } from "../../ThemeContext.js";
 import ThemeToggleButton from "./ThemeToggleButton.js";
 import heartBlank from "@iso/assets/images/heart-blank.png";
+import heartBlankWhite from "@iso/assets/images/heart-white.png";
 import heartFull from "@iso/assets/images/heart-full.png";
 
 import imageDO from "@iso/assets/images/do.png";
 import imageAWS from "@iso/assets/images/aws.png";
+import imageAWSDark from "@iso/assets/images/aws-white-logo.png";
 import imageGCP from "@iso/assets/images/gcp.png";
 import imageAZURE from "@iso/assets/images/azure.png";
 import imageHETZNER from "@iso/assets/images/hetzner.png";
@@ -58,30 +61,45 @@ import avax from "@iso/assets/images/avax.png";
 import bsc from "@iso/assets/images/bsc.png";
 
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
+import blockIconDark from "@iso/assets/images/overview/block_icon_darkmode.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
 import lowTradingIcon from "@iso/assets/images/overview/24low_trading.svg";
+import highTradingIconDark from "@iso/assets/images/overview/24high_trading_darkmode.svg";
+import lowTradingIconDark from "@iso/assets/images/overview/24low_trading_darkmode.svg";
 import bondIcon from "@iso/assets/images/overview/Bond_icon.svg";
+import bondIconDark from "@iso/assets/images/overview/Bond_icon_darkmode.svg";
 import chartLineIcon from "@iso/assets/images/overview/chartLineIcon.svg";
+import chartLineIconDark from "@iso/assets/images/overview/chartLineIcon_darkmode.svg";
 import churnsIcon from "@iso/assets/images/overview/churns_icon.svg";
-import marcketCapIcon from "@iso/assets/images/overview/marcket_Cap.svg";
+import churnsIconDark from "@iso/assets/images/overview/churns_icon_darkmode.svg";
+import marketcapIcon from "@iso/assets/images/overview/marketcap.svg";
+import marketcapIconDark from "@iso/assets/images/overview/marketcap_darkmode.svg";
 import mcapRankIcon from "@iso/assets/images/overview/mcap_rank.svg";
+import mcapRankIconDark from "@iso/assets/images/overview/mcap_rank_darkmode.svg";
 import runeUsdtIcon from "@iso/assets/images/overview/rune_usdt.svg";
+import runeUsdtIconDark from "@iso/assets/images/overview/rune_usdt_darkmode.svg";
 import timeIcon from "@iso/assets/images/overview/time_icon.svg";
+import timeIconDark from "@iso/assets/images/overview/time_icon_darkmode.svg";
 import totalSupplyIcon from "@iso/assets/images/overview/total_supply.svg";
+import totalSupplyIconDark from "@iso/assets/images/overview/total_supply_darkmode.svg";
 import verticalTopIcon from "@iso/assets/images/overview/vertical-align-top.svg";
+import verticalTopIconDark from "@iso/assets/images/overview/vertical-align-top_darkmode.svg";
 import filterIcon from "@iso/assets/images/overview/filter.svg";
 import loadingIcon from "@iso/assets/images/overview/loading.png";
 import githubIcon from "@iso/assets/images/overview/github_link_icon.svg";
 import twitterIcon from "@iso/assets/images/overview/twitter_link_icon.svg";
 import liquifyLogo from "@iso/assets/images/overview/liquify_logo.svg";
+import liquifyLogoDark from "@iso/assets/images/overview/liquify_logo_darkmode.svg";
 import jailIcon from "@iso/assets/images/overview/jail_icon.svg";
+import jailIconDark from "@iso/assets/images/overview/jail_icon_darkmode.svg";
+
 import threeDotsIcon from "@iso/assets/images/overview/dots_three_circle.svg";
 import powerIcon from "@iso/assets/images/overview/power.svg";
 import activeIcon from "@iso/assets/images/overview/active_icon.svg";
 import arrowDownIcon from "@iso/assets/images/overview/arrow-down.svg";
 
 import VisibleColumn from "@iso/components/VisibleColumn/VisibleColumn";
-import { ThemeContext } from "styled-components";
+// import { ThemeContext } from "styled-components";
 
 const leaveIcon = (
   <svg
@@ -335,6 +353,7 @@ const GlobalData = ({
   handleMaxEffectiveStake,
   maxStakeOptions,
 }) => {
+  const { theme } = useTheme();
   let timeToDisplay = "";
   let msgTitle = "";
   if (globalData?.churnTry && globalData?.retiring === "false") {
@@ -351,7 +370,12 @@ const GlobalData = ({
   return (
     <>
       <div className="overview-item">
-        <img alt="#" src={blockIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? blockIcon : blockIconDark}
+          className="overview-item__icon"
+        />
+
         <div className="overview-item__value">
           <div className="overview-item__value-title">CURRENT BLOCK</div>
           <div className="overview-item__value-value">
@@ -360,14 +384,22 @@ const GlobalData = ({
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={churnsIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? churnsIcon : churnsIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">{msgTitle} </div>
           <div className="overview-item__value-value">{timeToDisplay}</div>
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={bondIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? bondIcon : bondIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">TOTAL BONDED VALUE</div>
           <Popover
@@ -409,7 +441,11 @@ const GlobalData = ({
       </div>
 
       <div className="overview-item">
-        <img alt="#" src={marcketCapIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? marketcapIcon : marketcapIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MARKET CAP</div>
           <div className="overview-item__value-value">
@@ -418,7 +454,11 @@ const GlobalData = ({
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={timeIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? timeIcon : timeIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR VOLUME</div>
           <div className="overview-item__value-value">
@@ -467,7 +507,7 @@ const GlobalData = ({
           >
             <img
               alt="#"
-              src={verticalTopIcon}
+              src={theme === "light" ? verticalTopIcon : verticalTopIconDark}
               className="overview-item__icon"
             />
             <div className="overview-item__value">
@@ -508,7 +548,11 @@ const GlobalData = ({
           onClick={handleClickTotalBond}
           style={{ cursor: "pointer" }}
         >
-          <img alt="#" src={chartLineIcon} className="overview-item__icon" />
+          <img
+            alt="#"
+            src={theme === "light" ? chartLineIcon : chartLineIconDark}
+            className="overview-item__icon"
+          />
           <div className="overview-item__value">
             <div className="overview-item__value-title">
               TOTAL BOND OVER TIME
@@ -522,10 +566,15 @@ const GlobalData = ({
 };
 
 const CoinGeckoData = ({ globalData }) => {
+  const { theme } = useTheme();
   return (
     <>
       <div className="overview-item">
-        <img alt="#" src={runeUsdtIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? runeUsdtIcon : runeUsdtIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">PRICE</div>
           <div className="overview-item__value-value">
@@ -534,7 +583,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={highTradingIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? highTradingIcon : highTradingIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR HIGH</div>
           <div className="overview-item__value-value">
@@ -543,7 +596,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={lowTradingIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? lowTradingIcon : lowTradingIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR LOW</div>
           <div className="overview-item__value-value">
@@ -552,7 +609,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={mcapRankIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? mcapRankIcon : mcapRankIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MARKET CAP RANK</div>
           <div className="overview-item__value-value">
@@ -561,7 +622,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={totalSupplyIcon} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? totalSupplyIcon : totalSupplyIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">TOTAL SUPPLY</div>
           <div className="overview-item__value-value">
@@ -575,13 +640,20 @@ const CoinGeckoData = ({ globalData }) => {
 
 const ReturnIspImage = ({ isp }) => {
   const style = { width: 25, height: 25 };
+  const { theme } = useTheme();
 
   if (
     isp === "Amazon.com, Inc." ||
     isp === "Amazon Technologies Inc." ||
     isp === "Amazon.com"
   ) {
-    return <img alt="#" src={imageAWS} style={style} />;
+    return (
+      <img
+        alt="#"
+        src={theme === "light" ? imageAWS : imageAWSDark}
+        style={style}
+      />
+    );
   }
   if (isp === "DigitalOcean, LLC" || isp === "DigitalOcean") {
     return <img alt="#" src={imageDO} style={style} />;
@@ -706,6 +778,7 @@ const NodeTable = ({
   sortBy = "",
   sortDirection = "",
 }) => {
+  const { theme } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(100);
 
@@ -1786,7 +1859,7 @@ const NodeTable = ({
                       >
                         <span style={{ cursor: "pointer" }}>
                           <img
-                            src={jailIcon}
+                            src={theme === "light" ? jailIcon : jailIconDark}
                             style={{
                               width: 20,
                               height: 20,
@@ -1806,7 +1879,9 @@ const NodeTable = ({
                     style={{ ...tdStyle, textAlign: "center" }}
                   >
                     <a
-                      style={{ color: "rgba(0,0,0,0.85)" }}
+                      style={{
+                        color: theme === "light" ? "rgba(0,0,0,0.85)" : "white",
+                      }}
                       href={`http://${item.ip_address}:27147/health?`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -1819,7 +1894,9 @@ const NodeTable = ({
                     style={{ ...tdStyle, textAlign: "center" }}
                   >
                     <a
-                      style={{ color: "rgba(0,0,0,0.85)" }}
+                      style={{
+                        color: theme === "light" ? "rgba(0,0,0,0.85)" : "white",
+                      }}
                       href={`http://${item.ip_address}:6040/p2pid`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -1879,9 +1956,6 @@ const NodeTable = ({
                   )}
                 </tr>
               ))}
-              <tr>
-                <td></td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -1941,6 +2015,7 @@ const defaulColumns = {
   BSC: true,
 };
 export default class extends Component {
+  static contextType = ThemeContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -2329,7 +2404,12 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   whichHeart(address) {
-    return this.state.myFavNodes.includes(address) ? heartFull : heartBlank;
+    const theme = this.context.theme;
+    return this.state.myFavNodes.includes(address)
+      ? heartFull
+      : theme === "light"
+      ? heartBlank
+      : heartBlankWhite;
   }
 
   handleNodePosition = async (node_address) => {
@@ -2489,6 +2569,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   render() {
+    const { theme } = this.context;
     const {
       loading,
       data,
@@ -2550,9 +2631,16 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   autoSkip: true,
@@ -2563,14 +2651,25 @@ We use string sort function if value is one of the arrays else do second sort nu
                   callback: function (value) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Max Effective Stake (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2585,9 +2684,16 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   autoSkip: true,
@@ -2598,14 +2704,25 @@ We use string sort function if value is one of the arrays else do second sort nu
                   callback: function (value) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Total Bond Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2620,9 +2737,16 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   autoSkip: true,
@@ -2633,18 +2757,27 @@ We use string sort function if value is one of the arrays else do second sort nu
                   callback: function (value) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Position",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   min: 0,
                   max: 100,
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2659,22 +2792,40 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   callback: function (value, index, values) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Slashes Value",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2689,22 +2840,40 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   callback: function (value, index, values) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Reward Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2719,9 +2888,16 @@ We use string sort function if value is one of the arrays else do second sort nu
               {
                 type: "linear",
                 position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
                 ticks: {
                   autoSkip: true,
@@ -2731,14 +2907,25 @@ We use string sort function if value is one of the arrays else do second sort nu
                   callback: function (value, index, values) {
                     return value;
                   },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
             yAxes: [
               {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
                 scaleLabel: {
                   display: true,
                   labelString: "Bond Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },
             ],
@@ -2811,7 +2998,7 @@ We use string sort function if value is one of the arrays else do second sort nu
               onClick={() => this.onNodesFilter("orthers")}
             >
               <Popover
-                content="Orther nodes"
+                content="Other nodes"
                 title={"Filter by"}
                 trigger="hover"
               >
@@ -3044,7 +3231,13 @@ We use string sort function if value is one of the arrays else do second sort nu
           <div className="logo-wrapper">
             <span>Built by:</span>
             <a href="https://liquify.io" target="_blank">
-              <img alt="#" src={liquifyLogo} className="overview-item__icon" />
+              <img
+                alt="#"
+                src={
+                  this.context.theme === "light" ? liquifyLogo : liquifyLogoDark
+                }
+                className="overview-item__icon"
+              />
             </a>
           </div>
         </Footer>

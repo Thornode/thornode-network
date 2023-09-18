@@ -4,14 +4,17 @@ import globe_icon from "@iso/assets/images/overview/globe_icon.svg";
 import version_icon from "@iso/assets/images/overview/version_icon.svg";
 import CustomPieChart from "@iso/containers/A_monitor/CustomPieChart.js";
 import useApiData from "@iso/containers/A_monitor/useApiData.js";
+import { useTheme } from "../../ThemeContext.js";
 
 import filterIcon from "@iso/assets/images/overview/filter.svg";
+import "@iso/containers/A_monitor/chartjs-plugin";
 
 function VisibleColumn({ initialConfig, onConfigUpdate }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [config, setConfig] = useState({
     ...initialConfig,
   });
+  const { theme } = useTheme();
 
   const {
     data: locationData,
@@ -74,7 +77,14 @@ function VisibleColumn({ initialConfig, onConfigUpdate }) {
     fullSize: true,
     responsive: true,
     legend: {
-      position: "top",
+      display: true,
+      labels: {
+        fontColor: theme === "light" ? "black" : "white",
+        padding: 10,
+      },
+    },
+    tooltips: {
+      enabled: true,
     },
     animation: {
       animateScale: true,
