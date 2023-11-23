@@ -3,7 +3,7 @@
   "version": "4.0.3",
   "private": true,
   "dependencies": {
-    "@ant-design/compatible": "^1.0.5",
+    "@ant-design/compatible": "^5.1.2",
     "@glidejs/glide": "^3.4.1",
     "@redq/js-info-bubble": "^0.8.1",
     "@uppy/core": "^1.13.2",
@@ -31,7 +31,7 @@
     "fuse.js": "^6.4.1",
     "globalize": "^1.7.0",
     "google-maps-react": "^2.0.6",
-    "graphql": "^16.8.0",
+    "graphql": "^16.8.1",
     "history": "^5.0.0",
     "html2canvas": "^1.4.1",
     "js-rich-marker": "^1.1.2",
