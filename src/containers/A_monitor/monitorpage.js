@@ -1,6 +1,5 @@
 import React, { Component, useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { UpOutlined, DownOutlined, DotChartOutlined } from "@ant-design/icons";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
@@ -22,6 +21,8 @@ import {
   LeftOutlined,
   RightOutlined,
   HistoryOutlined,
+  DotChartOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 //import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
 import { useTheme } from "../../ThemeContext.js";
@@ -1599,6 +1600,19 @@ const NodeTable = ({
                       </span>
                     </Popover>
 
+                    <Popover content={"Generate Report"} trigger="hover">
+                      <Link
+                        to={{
+                          pathname: PUBLIC_ROUTE.REPORT,
+                          state: { nodeAddress: item.node_address },
+                        }}
+                      >
+                        <span className="icon-wrapper">
+                          <ProjectOutlined style={{ stroke: "currentColor" }} />
+                        </span>
+                      </Link>
+                    </Popover>
+
                     <Icons
                       address={item.node_address}
                       ip_address={item.ip_address}
@@ -2776,7 +2790,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                 },
                 ticks: {
                   min: 0,
-                  max: 100,
+                  max: 120,
                   fontColor: this.context.theme === "light" ? "black" : "white",
                 },
               },

@@ -17,6 +17,7 @@ import {
   RightOutlined,
   HistoryOutlined,
   DotChartOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../../ThemeContext.js";
 import ThemeToggleButton from "./ThemeToggleButton.js";
@@ -379,7 +380,11 @@ const GlobalData = ({
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? bondIcon : bondIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? bondIcon : bondIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">TOTAL BONDED VALUE</div>
           <Popover
@@ -420,7 +425,11 @@ const GlobalData = ({
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? marketcapIcon : marketcapIconDark}className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? marketcapIcon : marketcapIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MARKET CAP</div>
           <div className="overview-item__value-value">
@@ -429,7 +438,11 @@ const GlobalData = ({
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? timeIcon : timeIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? timeIcon : timeIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR VOLUME</div>
           <div className="overview-item__value-value">
@@ -518,7 +531,11 @@ const GlobalData = ({
           onClick={handleClickTotalBond}
           style={{ cursor: "pointer" }}
         >
-          <img alt="#" src={theme === "light" ? chartLineIcon : chartLineIconDark} className="overview-item__icon" />
+          <img
+            alt="#"
+            src={theme === "light" ? chartLineIcon : chartLineIconDark}
+            className="overview-item__icon"
+          />
           <div className="overview-item__value">
             <div className="overview-item__value-title">
               TOTAL BOND OVER TIME
@@ -536,7 +553,11 @@ const CoinGeckoData = ({ globalData }) => {
   return (
     <>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? runeUsdtIcon : runeUsdtIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? runeUsdtIcon : runeUsdtIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">PRICE</div>
           <div className="overview-item__value-value">
@@ -545,7 +566,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? highTradingIcon : highTradingIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? highTradingIcon : highTradingIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR HIGH</div>
           <div className="overview-item__value-value">
@@ -554,7 +579,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? lowTradingIcon : lowTradingIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? lowTradingIcon : lowTradingIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">24 HR LOW</div>
           <div className="overview-item__value-value">
@@ -563,7 +592,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? mcapRankIcon : mcapRankIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? mcapRankIcon : mcapRankIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">MARKET CAP RANK</div>
           <div className="overview-item__value-value">
@@ -572,7 +605,11 @@ const CoinGeckoData = ({ globalData }) => {
         </div>
       </div>
       <div className="overview-item">
-        <img alt="#" src={theme === "light" ? totalSupplyIcon : totalSupplyIconDark} className="overview-item__icon" />
+        <img
+          alt="#"
+          src={theme === "light" ? totalSupplyIcon : totalSupplyIconDark}
+          className="overview-item__icon"
+        />
         <div className="overview-item__value">
           <div className="overview-item__value-title">TOTAL SUPPLY</div>
           <div className="overview-item__value-value">
@@ -593,7 +630,13 @@ const ReturnIspImage = ({ isp }) => {
     isp === "Amazon Technologies Inc." ||
     isp === "Amazon.com"
   ) {
-    return <img alt="#" src={theme === "light" ? imageAWS : imageAWSDark} style={style} />;
+    return (
+      <img
+        alt="#"
+        src={theme === "light" ? imageAWS : imageAWSDark}
+        style={style}
+      />
+    );
   }
   if (isp === "DigitalOcean, LLC" || isp === "DigitalOcean") {
     return <img alt="#" src={imageDO} style={style} />;
@@ -1534,6 +1577,20 @@ const NodeTable = ({
                         />
                       </span>
                     </Popover>
+
+                    <Popover content={"Generate Report"} trigger="hover">
+                      <Link
+                        to={{
+                          pathname: PUBLIC_ROUTE.REPORT,
+                          state: { nodeAddress: item.node_address },
+                        }}
+                      >
+                        <span className="icon-wrapper">
+                          <ProjectOutlined style={{ stroke: "currentColor" }} />
+                        </span>
+                      </Link>
+                    </Popover>
+
                     <Icons
                       address={item.node_address}
                       ip_address={item.ip_address}
@@ -1883,9 +1940,7 @@ const NodeTable = ({
                   )}
                 </tr>
               ))}
-              <tr>
-                
-              </tr>
+              <tr></tr>
             </tbody>
           </table>
         </div>
@@ -2559,314 +2614,314 @@ We use string sort function if value is one of the arrays else do second sort nu
           }
         : {};
 
-        const maxStakeOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    max: Math.max(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const maxStakeOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Max Effective Stake (ᚱ)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Max Effective Stake (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const totalBondOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    max: Math.max(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const totalBondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Total Bond Amount (ᚱ)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Total Bond Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const maxPositionOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: this.state.minX,
-                    max: this.state.maxX,
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const maxPositionOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Position",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    min: 0,
-                    max: 100,
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: this.state.minX,
+                  max: this.state.maxX,
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Position",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  min: 0,
+                  max: 120,
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const slashesOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const slashesOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Slashes Value",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Slashes Value",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const rewardsOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const rewardsOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Reward Amount (ᚱ)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Reward Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const bondOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const bondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Bond Amount (ᚱ)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Bond Amount (ᚱ)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
     return (
       <Layout>
@@ -3148,7 +3203,7 @@ We use string sort function if value is one of the arrays else do second sort nu
           <div className="logo-wrapper">
             <span>Built by:</span>
             <a href="https://liquify.io" target="_blank">
-            <img
+              <img
                 alt="#"
                 src={
                   this.context.theme === "light" ? liquifyLogo : liquifyLogoDark
