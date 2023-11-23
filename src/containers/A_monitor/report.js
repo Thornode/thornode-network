@@ -1,6 +1,7 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import isEmpty from "lodash/isEmpty";
 import { useLocation } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
@@ -71,14 +72,21 @@ const headerStyle = {
 };
 
 const ReportPage = ({ setNodeAddress }) => {
-  const location = useLocation();
-  const nodeAddress = location.state?.nodeAddress;
+  const { nodeAddress: nodeAddressParam } = useParams();
+  const [nodeAddress, setNodeAddressInput] = useState(nodeAddressParam || "");
+  const history = useHistory();
 
   useEffect(() => {
     if (nodeAddress) {
       setNodeAddress(nodeAddress);
     }
-  }, [nodeAddress, setNodeAddress, location]);
+  }, [nodeAddress, setNodeAddress]);
+
+  const handleNodeAddressSubmit = () => {
+    if (nodeAddress) {
+      history.push(`${PUBLIC_ROUTE.REPORT}/${nodeAddress}`);
+    }
+  };
 
   return (
     <div

@@ -1601,12 +1601,7 @@ const NodeTable = ({
                     </Popover>
 
                     <Popover content={"Generate Report"} trigger="hover">
-                      <Link
-                        to={{
-                          pathname: PUBLIC_ROUTE.REPORT,
-                          state: { nodeAddress: item.node_address },
-                        }}
-                      >
+                      <Link to={`${PUBLIC_ROUTE.REPORT}/${item.node_address}`}>
                         <span className="icon-wrapper">
                           <ProjectOutlined style={{ stroke: "currentColor" }} />
                         </span>
