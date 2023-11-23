@@ -73,20 +73,12 @@ const headerStyle = {
 
 const ReportPage = ({ setNodeAddress }) => {
   const { nodeAddress: nodeAddressParam } = useParams();
-  const [nodeAddress, setNodeAddressInput] = useState(nodeAddressParam || "");
-  const history = useHistory();
 
   useEffect(() => {
-    if (nodeAddress) {
-      setNodeAddress(nodeAddress);
+    if (nodeAddressParam) {
+      setNodeAddress(nodeAddressParam);
     }
-  }, [nodeAddress, setNodeAddress]);
-
-  const handleNodeAddressSubmit = () => {
-    if (nodeAddress) {
-      history.push(`${PUBLIC_ROUTE.REPORT}/${nodeAddress}`);
-    }
-  };
+  }, [nodeAddressParam, setNodeAddress]);
 
   return (
     <div
@@ -97,7 +89,9 @@ const ReportPage = ({ setNodeAddress }) => {
         marginBottom: "20px",
       }}
     >
-      <h1 className="report-title">Report for Node Address {nodeAddress}</h1>
+      <h1 className="report-title">
+        Report for Node Address {nodeAddressParam}
+      </h1>
 
       <h2 className="report-subtitle">
         Generate report based on the churns below
