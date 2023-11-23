@@ -141,7 +141,7 @@ td {
     var(--bg-color) -20.26%,
     var(--bg-color) 99.82%
   );
-  opacity: 0.8;
+  opacity: 0.9;
   border-radius: 10px;
   padding: 36px 40px 10px;
   filter: var(--drop-shadow-color);
