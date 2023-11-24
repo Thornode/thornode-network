@@ -204,6 +204,37 @@ export default class extends Component {
     }
   }
 
+  exportCSV = () => {
+    const headers = [
+      "Height",
+      "Date",
+      "Price",
+      "Rewards (RUNE)",
+      "Rewards ($)",
+    ];
+    const data = this.state.tableData.map((row) => [
+      row.churnHeight,
+      row.date,
+      row.price,
+      row.rewards,
+      row.dollarValue,
+    ]);
+
+    let csvContent =
+      "data:text/csv;charset=utf-8," +
+      headers.join(",") +
+      "\n" +
+      data.map((e) => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "report.csv");
+    document.body.appendChild(link);
+
+    link.click();
+  };
+
   componentDidMount() {
     this.fetchChurns();
   }
@@ -824,11 +855,19 @@ export default class extends Component {
                       type="primary"
                       onClick={this.exportPDF}
                       style={{
-                        width: "30%",
+                        width: "20%",
                         padding: "0 20px",
+                        marginRight: "10px",
                       }}
                     >
                       Download as PDF
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={this.exportCSV}
+                      style={{ width: "20%", padding: "0 20px" }}
+                    >
+                      Download as CSV
                     </Button>
                   </div>
                 </>
