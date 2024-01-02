@@ -18,6 +18,7 @@ import {
   HistoryOutlined,
   DotChartOutlined,
   ProjectOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../../ThemeContext.js";
 import ThemeToggleButton from "./ThemeToggleButton.js";
@@ -786,6 +787,48 @@ const NodeTable = ({
     setCurrentPage((prevPage) => (prevPage === 1 ? prevPage : prevPage - 1));
   };
 
+  const haltsData =
+    typeof globalData.halts === "string"
+      ? JSON.parse(globalData.halts)
+      : globalData.halts;
+
+  const getPopoverMessage = (chainData) => {
+    let messages = [];
+    if (chainData.SIGNING === 1) messages.push("Signing is Halted");
+    if (chainData.TRADING === 1) messages.push("Trading is Halted");
+    if (chainData.CHAIN === 1) messages.push("Chain is Halted");
+    return messages.join(", ");
+  };
+
+  const renderWarningIcon = (chain) => {
+    const chainData = haltsData[chain];
+    if (
+      chainData &&
+      (chainData.SIGNING === 1 ||
+        chainData.TRADING === 1 ||
+        chainData.CHAIN === 1)
+    ) {
+      return (
+        <Popover
+          content={getPopoverMessage(chainData)}
+          title="Warning"
+          trigger="hover"
+        >
+          <ExclamationCircleOutlined
+            style={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+              color: "red",
+              fontSize: "18px",
+            }}
+          />
+        </Popover>
+      );
+    }
+    return null;
+  };
+
   const renderPageNumbers = pageNumbers.map((number) => {
     return (
       <li
@@ -1234,6 +1277,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BNB")}
                       </div>
                     </th>
                     <th
@@ -1267,6 +1311,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BTC")}
                       </div>
                     </th>
 
@@ -1301,6 +1346,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("ETH")}
                       </div>
                     </th>
                     <th
@@ -1334,6 +1380,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("LTC")}
                       </div>
                     </th>
                     <th
@@ -1367,6 +1414,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BCH")}
                       </div>
                     </th>
                     <th
@@ -1400,6 +1448,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("DOGE")}
                       </div>
                     </th>
                     <th
@@ -1433,6 +1482,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("GAIA")}
                       </div>
                     </th>
 
@@ -1467,6 +1517,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("AVAX")}
                       </div>
                     </th>
 
@@ -1501,6 +1552,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BSC")}
                       </div>
                     </th>
                   </>

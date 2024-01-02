@@ -23,6 +23,7 @@ import {
   HistoryOutlined,
   DotChartOutlined,
   ProjectOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 //import { retiringVault } from './data.js' //https://thornode.ninerealms.com/thorchain/vaults/asgard
 import { useTheme } from "../../ThemeContext.js";
@@ -817,6 +818,48 @@ const NodeTable = ({
     );
   });
 
+  const haltsData =
+    typeof globalData.halts === "string"
+      ? JSON.parse(globalData.halts)
+      : globalData.halts;
+
+  const getPopoverMessage = (chainData) => {
+    let messages = [];
+    if (chainData.SIGNING === 1) messages.push("Signing is Halted");
+    if (chainData.TRADING === 1) messages.push("Trading is Halted");
+    if (chainData.CHAIN === 1) messages.push("Chain is Halted");
+    return messages.join(", ");
+  };
+
+  const renderWarningIcon = (chain) => {
+    const chainData = haltsData[chain];
+    if (
+      chainData &&
+      (chainData.SIGNING === 1 ||
+        chainData.TRADING === 1 ||
+        chainData.CHAIN === 1)
+    ) {
+      return (
+        <Popover
+          content={getPopoverMessage(chainData)}
+          title="Warning"
+          trigger="hover"
+        >
+          <ExclamationCircleOutlined
+            style={{
+              position: "absolute",
+              top: "-2px",
+              right: "2px",
+              color: "red",
+              fontSize: "15px",
+            }}
+          />
+        </Popover>
+      );
+    }
+    return null;
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = nodeData.slice(indexOfFirstItem, indexOfLastItem);
@@ -1254,6 +1297,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BNB")}
                       </div>
                     </th>
 
@@ -1288,6 +1332,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BTC")}
                       </div>
                     </th>
 
@@ -1322,6 +1367,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("ETH")}
                       </div>
                     </th>
                     <th
@@ -1355,6 +1401,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("LTC")}
                       </div>
                     </th>
                     <th
@@ -1388,6 +1435,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BCH")}
                       </div>
                     </th>
                     <th
@@ -1421,6 +1469,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("DOGE")}
                       </div>
                     </th>
                     <th
@@ -1454,16 +1503,13 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("GAIA")}
                       </div>
                     </th>
 
                     <th
                       className={getHeaderClassName("AVAX")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
+                      style={{ ...headerStyle, textAlign: "center" }}
                       onClick={() => clickSortHeader("AVAX")}
                     >
                       <div
@@ -1471,10 +1517,11 @@ const NodeTable = ({
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          position: "relative",
                         }}
                       >
                         <img
-                          alt="#"
+                          alt="AVAX"
                           src={avax}
                           style={{
                             width: 25,
@@ -1488,6 +1535,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("AVAX")}
                       </div>
                     </th>
 
@@ -1522,6 +1570,7 @@ const NodeTable = ({
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
+                        {renderWarningIcon("BSC")}
                       </div>
                     </th>
                   </>
