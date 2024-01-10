@@ -818,10 +818,9 @@ const NodeTable = ({
           <ExclamationCircleOutlined
             style={{
               position: "absolute",
-              top: "0",
-              right: "0",
+              marginLeft: "20px",
               color: "red",
-              fontSize: "18px",
+              fontSize: "15px",
             }}
           />
         </Popover>
@@ -2595,7 +2594,7 @@ We use string sort function if value is one of the arrays else do second sort nu
 
         const chartData2 = Object.entries(rawData2).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000),
+          y: Math.round(Number(y) / 10000),
         }));
 
         this.setState({ chartData: [chartData1, chartData2] });

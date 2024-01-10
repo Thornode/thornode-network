@@ -840,6 +840,7 @@ const NodeTable = ({
         chainData.TRADING === 1 ||
         chainData.CHAIN === 1)
     ) {
+      console.log(globalData.halts);
       return (
         <Popover
           content={getPopoverMessage(chainData)}
@@ -849,8 +850,7 @@ const NodeTable = ({
           <ExclamationCircleOutlined
             style={{
               position: "absolute",
-              top: "-2px",
-              right: "2px",
+              marginLeft: "20px",
               color: "red",
               fontSize: "15px",
             }}
@@ -2615,7 +2615,7 @@ We use string sort function if value is one of the arrays else do second sort nu
 
         const chartData2 = Object.entries(rawData2).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000),
+          y: Math.round(Number(y) / 10000),
         }));
 
         this.setState({ chartData: [chartData1, chartData2] });
