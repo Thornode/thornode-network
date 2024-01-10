@@ -840,7 +840,6 @@ const NodeTable = ({
         chainData.TRADING === 1 ||
         chainData.CHAIN === 1)
     ) {
-      console.log(globalData.halts);
       return (
         <Popover
           content={getPopoverMessage(chainData)}
