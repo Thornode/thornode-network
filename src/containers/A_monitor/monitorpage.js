@@ -849,7 +849,7 @@ const NodeTable = ({
           <ExclamationCircleOutlined
             style={{
               position: "absolute",
-              marginLeft: "20px",
+              marginLeft: "25px",
               color: "red",
               fontSize: "15px",
             }}
