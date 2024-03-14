@@ -12,6 +12,7 @@
   --icon-color: #7e7e7e;
   --link-color: #1b34a0;
   --icon-hover-color: #1c39bb;
+  --node-adresss-hover-color: black;
   --border-color: rgba(0, 0, 0, 0.07);
   --animation-bg-color1: white;
   --animation-bg-color2: rgba(230, 255, 117, 0.5);
@@ -31,6 +32,7 @@
   --icon-color: white;
   --link-color: #3352db;
   --icon-hover-color: #4e90ff;
+  --node-adresss-hover-color: #4e90ff;
   --border-color: rgba(255, 255, 255, 0.07);
   --animation-bg-color1: black;
   --animation-bg-color2: rgba(70, 95, 7, 0.5);
@@ -91,7 +93,7 @@ td {
 }
 
 .nodeaddress:hover {
-  color: var(--icon-hover-color);
+  color: var(--node-adresss-hover-color);
 }
 
 .tableHeader span {
