@@ -1610,11 +1610,6 @@ const NodeTable = ({
                   {chains && (
                     <>
                       <ChainTD
-                        chain={"BNB"}
-                        obchains={item.obchains}
-                        maxChainHeights={maxChainHeights}
-                      />
-                      <ChainTD
                         chain={"BTC"}
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}

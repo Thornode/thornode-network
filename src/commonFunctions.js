@@ -136,7 +136,6 @@ export const getData = async () => {
   const maxLTCHeight = reduceDown(data2, "LTC");
   //const maxTerraHeight = reduceDown(data2, 'TERRA')
   const maxBCHHeight = reduceDown(data2, "BCH");
-  const maxBNBHeight = reduceDown(data2, "BNB");
   const maxGAIAHeight = reduceDown(data2, "GAIA");
   const maxAVAXHeight = reduceDown(data2, "AVAX");
   const maxBSCHeight = reduceDown(data2, "BSC");
@@ -156,7 +155,6 @@ export const getData = async () => {
       LTC: maxLTCHeight,
       GAIA: maxGAIAHeight,
       BCH: maxBCHHeight,
-      BNB: maxBNBHeight,
       AVAX: maxAVAXHeight,
       BSC: maxBSCHeight,
     },

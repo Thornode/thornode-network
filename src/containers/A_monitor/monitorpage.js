@@ -1267,41 +1267,6 @@ const NodeTable = ({
                 {chains && (
                   <>
                     <th
-                      className={getHeaderClassName("BNB")}
-                      style={{
-                        ...headerStyle,
-                        ...iconStyle,
-                        textAlign: "center",
-                      }}
-                      onClick={() => clickSortHeader("BNB")}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <img
-                          alt="#"
-                          src={binance}
-                          style={{
-                            width: 25,
-                            height: 25,
-                            display: "block",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <SortIcon
-                          column={"BNB"}
-                          sortBy={sortBy}
-                          sortDirection={sortDirection}
-                        />
-                        {renderWarningIcon("BNB")}
-                      </div>
-                    </th>
-
-                    <th
                       className={getHeaderClassName("BTC")}
                       style={{
                         ...headerStyle,
@@ -1968,11 +1933,6 @@ const NodeTable = ({
                   {chains && (
                     <>
                       <ChainTD
-                        chain={"BNB"}
-                        obchains={item.obchains}
-                        maxChainHeights={maxChainHeights}
-                      />
-                      <ChainTD
                         chain={"BTC"}
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
@@ -2065,7 +2025,6 @@ const defaulColumns = {
   rpc: true,
   bfr: true,
   BTC: true,
-  BNB: true,
   ETH: true,
   LTC: true,
   BCH: true,
@@ -2437,7 +2396,6 @@ We use string sort function if value is one of the arrays else do second sort nu
 
   clickSortHeader(item) {
     const isChain = [
-      "BNB",
       "BTC",
       "ETH",
       "LTC",
