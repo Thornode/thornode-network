@@ -1,7 +1,5 @@
-const version = "v1";
-
 export const PUBLIC_ROUTE = {
-  LANDING: `/${version}`,
+  LANDING: `/`,
   SIGN_IN: "/signin",
   SIGN_UP: "/signup",
   FORGET_PASSWORD: "/forgotpassword",
@@ -9,10 +7,10 @@ export const PUBLIC_ROUTE = {
   PAGE_404: `/404`,
   PAGE_500: `/500`,
   AUTH0_CALLBACK: "/auth0loginCallback",
-  ACTIVE_DASHBOARD: `/${version}/active-dashboard`,
-  STANDBY_DASHBOARD: `/${version}/standby-dashboard`,
-  OTHER_DASHBOARD: `/${version}/other-dashboard`,
-  REPORT: `/${version}/report`,
+  ACTIVE_DASHBOARD: `/active-dashboard`,
+  STANDBY_DASHBOARD: `/standby-dashboard`,
+  OTHER_DASHBOARD: `/other-dashboard`,
+  REPORT: `/report`,
 };
 
 export const PRIVATE_ROUTE = {
