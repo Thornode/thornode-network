@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import { Line } from "react-chartjs-2";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
+import VersionDropdown from "./VersionDropdown.js";
 //import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
 //import LayoutContent from '@iso/components/utility/layoutContent';
 import Modals from "@iso/components/Feedback/Modal";
@@ -3095,6 +3096,8 @@ We use string sort function if value is one of the arrays else do second sort nu
             <div className="active-node">
               <ThemeToggleButton />
             </div>
+
+            <VersionDropdown />
           </div>
         </Header>
         <Content style={{ padding: 40, backgroundColor: "white" }}>

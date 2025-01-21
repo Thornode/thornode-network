@@ -1,16 +1,18 @@
+const version = "v1";
+
 export const PUBLIC_ROUTE = {
-  LANDING: "/",
+  LANDING: `/${version}`,
   SIGN_IN: "/signin",
   SIGN_UP: "/signup",
   FORGET_PASSWORD: "/forgotpassword",
   RESET_PASSWORD: "/resetpassword",
-  PAGE_404: "/404",
-  PAGE_500: "/500",
+  PAGE_404: `/404`,
+  PAGE_500: `/500`,
   AUTH0_CALLBACK: "/auth0loginCallback",
-  ACTIVE_DASHBOARD: "/active-dashboard",
-  STANDBY_DASHBOARD: "/standby-dashboard",
-  OTHER_DASHBOARD: "/other-dashboard",
-  REPORT: "/report",
+  ACTIVE_DASHBOARD: `/${version}/active-dashboard`,
+  STANDBY_DASHBOARD: `/${version}/standby-dashboard`,
+  OTHER_DASHBOARD: `/${version}/other-dashboard`,
+  REPORT: `/${version}/report`,
 };
 
 export const PRIVATE_ROUTE = {
