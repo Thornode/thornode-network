@@ -6,13 +6,13 @@ const VersionDropdown = () => {
   const menu = (
     <Menu>
       <Menu.Item key="2.0">
-        <a href="https://thor-dash.liquify/" rel="noopener noreferrer">
+        <a href="https://thornode.network" rel="noopener noreferrer">
           Version 2.0
         </a>
       </Menu.Item>
 
       <Menu.Item key="1.8">
-        <a href="https://thor-dash.liquify/v1" rel="noopener noreferrer">
+        <a href="https://thornode.network/v1" rel="noopener noreferrer">
           Version 1.8
         </a>
       </Menu.Item>
