@@ -1,12 +1,12 @@
-import React from 'react';
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
-import Tabs, { TabPane } from '@iso/components/uielements/tabs';
-import Select, { SelectOption } from '@iso/components/uielements/select';
-import Button from '@iso/components/uielements/button';
-import PageHeader from '@iso/components/utility/pageHeader';
-import Box from '@iso/components/utility/box';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper.js';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import React from "react";
+import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
+import Tabs, { TabPane } from "@iso/components/uielements/tabs";
+import Select, { SelectOption } from "@iso/components/uielements/select";
+import Button from "@iso/components/uielements/button";
+import PageHeader from "@iso/components/utility/pageHeader";
+import Box from "@iso/components/utility/box";
+import LayoutWrapper from "@iso/components/utility/layoutWrapper.js";
+import IntlMessages from "@iso/components/utility/intlMessages";
 
 // const TabPane = Tabs.TabPane;
 const Option = SelectOption;
@@ -16,18 +16,18 @@ function callback(key) {}
 const operations = <Button>Extra Action</Button>;
 const panes = [
   {
-    title: 'Tab 1',
-    content: 'Content of Tab 1',
-    key: '1',
+    title: "Tab 1",
+    content: "Content of Tab 1",
+    key: "1",
     closable: false,
   },
-  { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
+  { title: "Tab 2", content: "Content of Tab 2", key: "2" },
 ];
 export default function () {
   const [state, setState] = React.useState({
     activeKey: panes[0].key,
     panes: panes,
-    tabPosition: 'top',
+    tabPosition: "top",
     newTabIndex: 0,
   });
 
@@ -40,8 +40,8 @@ export default function () {
     const panes = state.panes;
     const activeKey = `newTab${state.newTabIndex++}`;
     panes.push({
-      title: 'New Tab',
-      content: 'Content of new Tab',
+      title: "New Tab",
+      content: "Content of new Tab",
       key: activeKey,
     });
     setState({ ...state, panes, activeKey });
@@ -65,7 +65,7 @@ export default function () {
   };
 
   const onEdit = (targetKey, action) => {
-    if (action === 'remove') {
+    if (action === "remove") {
       remove(targetKey);
     } else {
       add(targetKey);
@@ -165,7 +165,7 @@ export default function () {
             defaultValue="top"
             value={state.tabPosition}
             onChange={changeTabPosition}
-            dropdownMatchSelectWidth={false}
+            popupMatchSelectWidth={false}
           >
             <Option value="top">top</Option>
             <Option value="bottom">bottom</Option>

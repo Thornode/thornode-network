@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button } from 'antd';
-import Popover from './uielements/popover';
-import ColorChooserDropdown from './ColorChooser.style';
+import React from "react";
+import { Button } from "antd";
+import Popover from "./uielements/popover";
+import ColorChooserDropdown from "./ColorChooser.style";
 
 export default function ({ colors, seectedColor, changeColor }) {
   const [visible, setVisibility] = React.useState(false);

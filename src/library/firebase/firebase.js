@@ -1,8 +1,8 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-import ReduxSagaFirebase from 'redux-saga-firebase';
-import isoConfig from '@iso/config/firebase.config';
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import ReduxSagaFirebase from "redux-saga-firebase";
+import isoConfig from "@iso/config/firebase.config";
 // Example if anyone want to use different config for production and development using .env
 
 // const prodConfig = {
@@ -24,10 +24,9 @@ import isoConfig from '@iso/config/firebase.config';
 // const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 // !firebase.apps.length ? firebase.initializeApp(isoConfig) : firebase.app();
 
-export const firebaseApp = !firebase.apps.length
-  ? firebase.initializeApp(isoConfig)
-  : firebase.app();
-export const auth = firebase.auth();
-export const db = firebase.firestore();
+export const firebaseApp = !getApps().length
+  ? initializeApp(isoConfig)
+  : getApp();
+export const auth = getAuth();
+export const db = getFirestore();
 export const rsf = new ReduxSagaFirebase(firebaseApp);
-export default firebase;
