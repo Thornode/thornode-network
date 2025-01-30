@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Menu, Dropdown, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
@@ -6,21 +6,13 @@ const VersionDropdown = () => {
   const menu = (
     <Menu>
       <Menu.Item key="2.0">
-        <a
-          href="https://thornode.network/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://thor-dash.liquify/" rel="noopener noreferrer">
           Version 2.0
         </a>
       </Menu.Item>
 
       <Menu.Item key="1.8">
-        <a
-          href="https://thornode.network/v1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://thor-dash.liquify/v1" rel="noopener noreferrer">
           Version 1.8
         </a>
       </Menu.Item>
